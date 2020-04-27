@@ -13,3 +13,13 @@
 
 ## Perhatian
 Pastikan nama database di phpmyadmin sama dengan nama database di .env
+
+## Login
+    - Admin :
+        email     : dimas@gmail.com
+        password  : dimas
+    
+    - Pegawai :
+        email     : azizah@gmail.com
+        password  : azizah
+ 
