@@ -1,3 +1,5 @@
+![Capture](https://user-images.githubusercontent.com/57169811/80343699-8d914f00-8890-11ea-9b9c-9f7e4b7f3546.PNG)
+
 ## Cara Instalasi
 1. Download / Clone Repository https://github.com/dimasaddriansyah/Manajemen-Zahira.git
 2. Buka Folder Manajemen-Zahira
