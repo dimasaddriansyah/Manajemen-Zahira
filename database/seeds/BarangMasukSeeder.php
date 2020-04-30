@@ -13,12 +13,7 @@ class BarangMasukSeeder extends Seeder
      */
     public function run()
     {
-        barang_masuk::create([
-            'barang_id' => '1',
-            'supplier_id' => '1',
-            'jumlah_masuk' => '20',
-            'tgl_masuk' => Carbon::now()
-        ]);
+
     }
 }
 

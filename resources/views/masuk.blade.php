@@ -37,17 +37,17 @@
 						Sign In
 					</span>
 				</div>
-				@if(\Session::has('alert'))
+				@if(Session::has('alert'))
                 <div class="alert alert-danger" align="center">
                     <div>{{Session::get('alert')}}</div>
                 </div>
             @endif
-            @if(\Session::has('alert-success'))
+            @if(Session::has('alert-success'))
                 <div class="alert alert-success">
                     <div>{{Session::get('alert-success')}}</div>
                 </div>
             @endif
-				<form class="login100-form validate-form" action="/kirimdata" method="post">
+				<form class="login100-form validate-form" action="kirimdata" method="post">
 					{{ @csrf_field() }}
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
 						<span class="label-input100">Email</span>
@@ -66,9 +66,7 @@
 						</div>
 
 						<div>
-							<a href="{{ url('#') }}" class="txt1">
-								Belum Punya Akun ? Daftar
-							</a>
+							<small>Lupa <b style="color : red;">Password ?</b> Hubungi Admin</small>
 						</div>
 					</div>
 

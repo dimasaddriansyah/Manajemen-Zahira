@@ -27,6 +27,7 @@ class SupplierController extends Controller
         $supplier->no_hp = $request->no_hp;
         $supplier->save();
 
+        alert()->success('Data Berhasil Di Tambah !', 'Success');
         return redirect('/admin/supplier/index');
 
         
@@ -35,24 +36,25 @@ class SupplierController extends Controller
     public function deletesupplier($id){
         supplier::where('id', $id)->delete();
 
+        alert()->error('Data Berhasil Di Hapus !', 'Hapus');
         return redirect('/admin/supplier/index');
     }
 
-    public function formsupplier($id){
+    public function formSupplier($id){
         $supplier = supplier::where('id', $id)->first();
 
-        return view('/halaman-admin/content/edit', compact('supplier'));
+        return view('/admin/supplier/edit', compact('supplier'));
     }
 
-    public function editsupplier(Request $request,$id){
+    public function editSupplier(Request $request,$id){
         supplier::where('id', $id)
                 ->update([
-                    'nama'=>$request->nama,
-                    'harga'=>$request->harga,
-                    'stok'=>$request->stok,
-                    'keterangan'=>$request->keterangan,
+                    'name'=>$request->name,
+                    'alamat'=>$request->alamat,
+                    'no_hp'=>$request->no_hp,
                 ]);
 
-    return redirect('/halaman-admin/content/supplier');
+    alert()->success('Data Berhasil Di Update !', 'Success');
+    return redirect('/admin/supplier/index');
     }
 }

@@ -21,7 +21,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+  <script>
+    function formatCurrency(num) {
+      num = num.toString().replace(/\$|\,/g,'');
+      if(isNaN(num))
+      num = "0";
+      sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num*100+0.50000000001);
+      cents = num%100;
+      num = Math.floor(num/100).toString();
+      if(cents<10)
+      cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+      num = num.substring(0,num.length-(4*i+3))+'.'+
+      num.substring(num.length-(4*i+3));
+      return (((sign)?'':'-') + 'Rp. ' + num);
+    }
+</script>
   
   @yield('style-ajalah')
 
@@ -171,8 +187,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <a href="{{ url('/admin/barang_masuk/tambah')}}" class="btn btn-primary"><i class="fa fa-plus">  TAMBAH BARANG MASUK</i></a>
-            </div>
+                <div class="row">
+                  <div class="col">
+                    <a href="{{url('/admin/barang_masuk/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH BARANG MASUK</i></a>
+                  </div>
+                  <div class="col" align="right">
+                    <form action="search" method="GET">
+                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
+                          class="btn btn-light">
+                      <input type="submit" value="Cari" class="btn btn-primary">
+                  </form>
+                  </div>
+                </div> 
+              </div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
@@ -180,8 +207,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Barang</th>
                                         <th>Nama Supplier</th>
+                                        <th>Nama Barang</th>
+                                        <th>Harga Beli</th>
                                         <th>Jumlah Barang</th>
                                         <th>Tanggal Masuk</th>
                                         <th><center>Option</center> </th>
@@ -191,15 +219,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @foreach($data as $key => $barang_masuk)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$barang_masuk->barang->name}}</td>
                                             <td>{{$barang_masuk->supplier->name}}</td>
+                                            <td>{{$barang_masuk->barang->name}}</td>
+                                            <td>@currency($barang_masuk->harga_beli)</td>
                                             <td>{{$barang_masuk->jumlah_masuk}}</td>
                                             <td>{{$barang_masuk->tgl_masuk}}</td>
                                             <td>
                                               <center>
+                                              <a href="{{url('/form-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
                                               <a href="{{url('/delete-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-xs btn-danger btn-flat" onclick="
                                                 return confirm('Anda Yakin Akan Menghapus Data ?');"><i class="fa fa-trash"></i></a>
-                                              <a href="{{url('/form-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
                                               </center>
                                           </td>
                                         </tr>

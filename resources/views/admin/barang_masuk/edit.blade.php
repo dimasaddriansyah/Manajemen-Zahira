@@ -20,7 +20,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+  <script>
+    function formatCurrency(num) {
+      num = num.toString().replace(/\$|\,/g,'');
+      if(isNaN(num))
+      num = "0";
+      sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num*100+0.50000000001);
+      cents = num%100;
+      num = Math.floor(num/100).toString();
+      if(cents<10)
+      cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+      num = num.substring(0,num.length-(4*i+3))+'.'+
+      num.substring(num.length-(4*i+3));
+      return (((sign)?'':'-') + 'Rp. ' + num);
+    }
+</script>
   @yield('style-ajalah')
 
 </head>
@@ -83,9 +99,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon nav-icon fas fa-scroll"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon nav-icon fas fa-users"></i>
               <p>
                 Master Data
                 <i class="right fas fa-angle-left" ></i>
@@ -93,22 +109,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ url('/admin/pegawai/index') }}" class="nav-link ">
-                  <i class="nav-icon fas fa-user-tie"></i>
+                <a href="{{ url('/admin/pegawai/index') }}" class="nav-link">
+                  <i class="nav-icon fas fa-user"></i>
                   <p>Akun Pegawai</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/supplier/index') }}" class="nav-link active">
+                <a href="{{ url('/admin/supplier/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-user"></i>
                   <p>Data Supplier</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon nav-icon fas fa-scroll"></i>
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon nav-icon fas fa-cubes"></i>
               <p>
                 Master Barang
                 <i class="right fas fa-angle-left" ></i>
@@ -116,20 +132,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ url('/admin/barang/index') }}" class="nav-link ">
+                <a href="{{ url('/admin/barang/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-cubes"></i>
                   <p>Stok Barang</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/kategori/index') }}" class="nav-link ">
-                  <i class="nav-icon fas fa-list-ul"></i>
-                  <p>Kategori Barang</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/barang_masuk/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-arrow-circle-right"></i>
+                <a href="{{ url('/admin/barang_masuk/index') }}" class="nav-link active">
+                  <i class="nav-icon fas fa-cubes"></i>
                   <p>Barang Masuk</p>
                 </a>
               </li>
@@ -168,10 +178,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
         <div class="container-fluid">
             <div class="row">
+              <div class="col-md-12">
+                <a href="{{url('/admin/barang_masuk/index')}}" class="btn btn-round btn-primary"><i class="fas fa-arrow-circle-left"> KEMBALI</i></a>
+              </div>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>EDIT DATA SUPPLIER {{$supplier->name}}</h5>
+                            <h5>EDIT DATA BARANG MASUK {{$barang_masuk->name}}</h5>
                         </div>
                         <div class="card-body">
                           @if ($errors->any())
@@ -183,21 +196,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </ul>
                             </div>
                           @endif
-                            <form action="{{ url('/edit-supplier/'. $supplier->id) }}" method="post">
+                            <form action="{{ url('/edit-barang_masuk/'. $barang_masuk->id) }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                  <label>Nama Supplier</label>
-                                  <input type="text" class="form-control" name="name" value="{{ $supplier->name }}" required>
+                                  <label>Nama Barang</label>
+                                  <select name="barang" class="form-control">
+                                    @foreach ($barang as $barang)
+                                      <option value="{{ $barang->id }}"
+                                        @if ($barang->id === $barang_masuk->barang_id )
+                                            selected
+                                        @endif
+                                        >{{ $barang->name }}
+                                        </option>       
+                                    @endforeach
+                                  </select>
                               </div>
                               <div class="form-group">
-                                <label>Alamat</label>
-                                <input type="text" class="form-control" name="alamat" value="{{ $supplier->alamat }}" required>
-                              </div>
+                                <label>Nama Supplier</label>
+                                <select name="supplier" class="form-control" required>
+                                  @foreach ($supplier as $supplier)
+                                      <option value="{{ $supplier->id }}"
+                                        @if ($supplier->id === $barang_masuk->supplier_id )
+                                            selected
+                                        @endif
+                                        >{{ $supplier->name }}
+                                        </option>       
+                                    @endforeach
+                                </select>
+                             </div>
+                             <div class="form-group">
+                              <label>Harga Beli</label>
+                              <input type="number" class="row-cols-1 form-control" id="num" name="harga_beli" value="{{$barang->harga_beli}}" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
+                             </div>
                               <div class="form-group">
-                                  <label>No Hp</label>
-                                  <input type="text" class="form-control" name="no_hp" value="{{ $supplier->no_hp }}" required>
+                                  <label>Jumlah Barang</label>
+                                  <input type="number" class="form-control" name="jumlah" value={{ $barang_masuk->jumlah_masuk}} required>
                               </div>
-                                <button class="btn btn-primary btn-flat btn-block btn-sm">Update Data</button>
+                              
+                                <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
     
                             </form>
                         </div>

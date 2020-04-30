@@ -27,10 +27,5 @@ class SupplierSeeder extends Seeder
             'alamat' => 'Jl. Raya Tuparev Cirebon',
             'no_hp' => '089514391354'
         ]);
-        supplier::create([
-            'name' => 'Shopee',
-            'alamat' => 'Shoppe.com',
-            'no_hp' => '089514391355'
-        ]);
     }
 }

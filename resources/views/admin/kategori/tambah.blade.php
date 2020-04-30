@@ -177,12 +177,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h5><i class="fa fa-plus"></i>  TAMBAH DATA KATEGORI BARANG</h5>
                         </div>
                         <div class="card-body">
+                          @if ($errors->any())
+                            <div class="alert alert-danger" align="left">
+                                <ul>
+                                  <p>Kesalahan !</p>  
+                                    @foreach ($errors->all() as $error)
+                                      <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          @endif
                             <form action="{{ url('/add-kategori') }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Nama Kategori Barang</label>
-                                    <input type="text" class="form-control" name="name" required>
-                                </div>
+                                  <label>Nama Kategori Barang</label>
+                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" style="text-transform: capitalize;">
+                                  @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
+                               </div>
                     
     
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>

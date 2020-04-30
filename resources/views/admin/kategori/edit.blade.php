@@ -83,8 +83,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
               <i class="nav-icon nav-icon fas fa-scroll"></i>
               <p>
                 Master Data
@@ -93,21 +93,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ url('/admin/pegawai/index') }}" class="nav-link ">
+                <a href="{{ url('/admin/pegawai/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-user-tie"></i>
                   <p>Akun Pegawai</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/supplier/index') }}" class="nav-link active">
+                <a href="{{ url('/admin/supplier/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-user"></i>
                   <p>Data Supplier</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link ">
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon nav-icon fas fa-scroll"></i>
               <p>
                 Master Barang
@@ -122,7 +122,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/kategori/index') }}" class="nav-link ">
+                <a href="{{ url('/admin/kategori/index') }}" class="nav-link active">
                   <i class="nav-icon fas fa-list-ul"></i>
                   <p>Kategori Barang</p>
                 </a>
@@ -168,36 +168,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+              <div class="col-md-12">
+                <a href="{{url('/admin/kategori/index')}}" class="btn btn-round btn-primary"><i class="fas fa-arrow-circle-left"> KEMBALI</i></a>
+              </div>
+                <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-header">
-                            <h5>EDIT DATA SUPPLIER {{$supplier->name}}</h5>
+                            <h5>EDIT KATEGORI BARANG {{ $kategori->name }}</h5>
                         </div>
                         <div class="card-body">
                           @if ($errors->any())
                             <div class="alert alert-danger" align="left">
                                 <ul>
+                                  <p>Kesalhan !</p>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
                           @endif
-                            <form action="{{ url('/edit-supplier/'. $supplier->id) }}" method="post">
+                            <form action="{{ url('/edit-kategori/'. $kategori->id) }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                  <label>Nama Supplier</label>
-                                  <input type="text" class="form-control" name="name" value="{{ $supplier->name }}" required>
-                              </div>
-                              <div class="form-group">
-                                <label>Alamat</label>
-                                <input type="text" class="form-control" name="alamat" value="{{ $supplier->alamat }}" required>
-                              </div>
-                              <div class="form-group">
-                                  <label>No Hp</label>
-                                  <input type="text" class="form-control" name="no_hp" value="{{ $supplier->no_hp }}" required>
-                              </div>
-                                <button class="btn btn-primary btn-flat btn-block btn-sm">Update Data</button>
+                                    <label>Nama Kategori Barang</label>
+                                    <input type="text" class="form-control" name="name" value="{{ $kategori->name }}" required>
+                                </div>
+                    
+    
+                                <button class="btn btn-primary btn-flat btn-block btn-sm">UPDATE</button>
     
                             </form>
                         </div>

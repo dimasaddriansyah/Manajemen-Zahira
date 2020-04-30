@@ -70,79 +70,85 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="{{ url('/admin/index') }}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Dashboard
-              </p>
-            </a>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon nav-icon fas fa-users"></i>
-              <p>
-                Master Data
-                <i class="right fas fa-angle-left" ></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url('/admin/pegawai/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user"></i>
-                  <p>Akun Pegawai</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/supplier/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user"></i>
-                  <p>Data Supplier</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon nav-icon fas fa-cubes"></i>
-              <p>
-                Master Barang
-                <i class="right fas fa-angle-left" ></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url('/admin/barang/index') }}" class="nav-link ">
-                  <i class="nav-icon fas fa-cubes"></i>
-                  <p>Stok Barang</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/barang_masuk/index') }}" class="nav-link active">
-                  <i class="nav-icon fas fa-arrow-circle-right"></i>
-                  <p>Barang Masuk</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-line"></i>
-              <p>
-                Laporan Keuangan
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+            <li class="nav-item">
+              <a href="{{ url('/admin/index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Dashboard
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon nav-icon fas fa-scroll"></i>
+                <p>
+                  Master Data
+                  <i class="right fas fa-angle-left" ></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ url('/admin/pegawai/index') }}" class="nav-link active">
+                    <i class="nav-icon fas fa-user-tie"></i>
+                    <p>Akun Pegawai</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('/admin/supplier/index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>Data Supplier</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item has-treeview ">
+              <a href="#" class="nav-link ">
+                <i class="nav-icon nav-icon fas fa-scroll"></i>
+                <p>
+                  Master Barang
+                  <i class="right fas fa-angle-left" ></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ url('/admin/barang/index') }}" class="nav-link ">
+                    <i class="nav-icon fas fa-cubes"></i>
+                    <p>Stok Barang</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('/admin/kategori/index') }}" class="nav-link ">
+                    <i class="nav-icon fas fa-list-ul"></i>
+                    <p>Kategori Barang</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url('/admin/barang_masuk/index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-arrow-circle-right"></i>
+                    <p>Barang Masuk</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>
+                  Laporan Keuangan
+                </p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -162,37 +168,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+              <div class="col-md-12">
+                <a href="{{url('/admin/pegawai/index')}}" class="btn btn-round btn-primary"><i class="fas fa-arrow-circle-left"> KEMBALI</i></a>
+              </div>
+                <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-header">
-                            <h5>EDIT AKUN PEGAWAI {{ $pegawai->name }}</h5>
+                            <h5>EDIT AKUN PEGAWAI <b style="color: blue">{{ $pegawai->name }}</b></h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('/edit-pegawai') }}" method="post">
+                          @if ($errors->any())
+                            <div class="alert alert-danger" align="left">
+                                <ul>
+                                    <p>Terjadi Kesalahan !</p>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          @endif
+                            <form action="{{ url('/edit-pegawai/'. $pegawai->id) }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Nama Pegawai</label>
-                                <input type="text" class="form-control" name="name" value="{{ $pegawai->name }}" required>
-                                </div>
-                                <div class="form-group">
-                                  <label>Email</label>
-                                  <input type="email" class="form-control" name="email" value="{{ $pegawai->email }}" required>
+                                  <label>Nama Pegawai</label>
+                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $pegawai->name }}" >
+                                  @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
                               </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" name="password" value="{{ $pegawai->password }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <input type="text" class="form-control" name="alamat" value="{{ $pegawai->alamat }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>No Hp</label>
-                                    <input type="text" class="form-control" name="no_hp" value="{{ $pegawai->no_hp }}" required>
-                                </div>
+                              <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $pegawai->email }}" >
+                                @if ($errors->has('email')) <span class="invalid-feedback"><strong>{{ $errors->first('email') }}</strong></span> @endif
+                              </div>
+                              <div class="form-group">
+                                  <label>Alamat</label>
+                                  <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ $pegawai->alamat }}" >
+                                  @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
+                               </div>
+                              <div class="form-group">
+                                  <label>No Hp</label>
+                                  <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $pegawai->no_hp }}" >
+                                  @if ($errors->has('no_hp')) <span class="invalid-feedback"><strong>{{ $errors->first('no_hp') }}</strong></span> @endif
+                               </div>
                     
     
-                                <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
+                                <button class="btn btn-primary btn-flat btn-block btn-sm">UPDATE</button>
     
                             </form>
                         </div>

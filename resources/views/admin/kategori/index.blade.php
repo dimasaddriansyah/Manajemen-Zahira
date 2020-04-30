@@ -171,8 +171,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <a href="{{ url('/admin/kategori/tambah')}}" class="btn btn-primary"><i class="fa fa-plus">  TAMBAH KATEGORI BARANG</i></a>
-            </div>
+                <div class="row">
+                  <div class="col">
+                    <a href="{{url('/admin/kategori/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH KATEGORI BARANG</i></a>
+                  </div>
+                  <div class="col" align="right">
+                    <form action="search" method="GET">
+                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
+                          class="btn btn-light">
+                      <input type="submit" value="Cari" class="btn btn-primary">
+                  </form>
+                  </div>
+                </div></div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
@@ -191,9 +201,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <td>{{$kategori->name}}</td>
                                             <td>
                                               <center>
+                                              <a href="{{url('/form-kategori/'.$kategori->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
                                               <a href="{{url('/delete-kategori/'.$kategori->id)}}" class="btn btn-xs btn-danger btn-flat" onclick="
                                                 return confirm('Anda Yakin Akan Menghapus Data ?');"><i class="fa fa-trash"></i></a>
-                                              <a href="{{url('/form-kategori/'.$kategori->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
                                               </center>
                                           </td>
                                         </tr>

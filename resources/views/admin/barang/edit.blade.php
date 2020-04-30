@@ -20,6 +20,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <script src="{{asset('/js/my.js')}}"></script>
+  <script>
+    function formatCurrency(num) {
+      num = num.toString().replace(/\$|\,/g,'');
+      if(isNaN(num))
+      num = "0";
+      sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num*100+0.50000000001);
+      cents = num%100;
+      num = Math.floor(num/100).toString();
+      if(cents<10)
+      cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+      num = num.substring(0,num.length-(4*i+3))+'.'+
+      num.substring(num.length-(4*i+3));
+      return (((sign)?'':'-') + 'Rp. ' + num);
+    }
+</script>
   
   @yield('style-ajalah')
 
@@ -147,28 +165,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+              <div class="col-md-12 mt-3">
+                <a href="{{url('/admin/barang/index')}}" class="btn btn-round btn-primary"><i class="fas fa-arrow-circle-left"> KEMBALI</i></a>
+              </div>
+                <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-header">
                             <h5>EDIT DATA BARANG {{$barang->name}}</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('/add-barang') }}" method="post">
+                          @if ($errors->any())
+                            <div class="alert alert-danger" align="left">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          @endif
+                            <form action="{{ url('/edit-barang/'. $barang->id) }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Barang</label>
@@ -177,30 +196,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="form-group">
                                   <label>Kategori Barang</label>
                                   <select name="kategori" class="form-control" required>
-                                    <option>-Pilih-</option>
-                                    <option value="Alat Masak">Alat Masak</option>
-                                    <option value="Alat Mandi">Alat Mandi</option>
-                                    <option value="Alat Pembersih">Alat Pembersih</option>
+                                    @foreach ($kategori as $kategori)
+                                      <option value="{{ $kategori->id }}"
+                                        @if ($kategori->id === $barang->kategori_id )
+                                            selected
+                                        @endif
+                                        >{{ $kategori->name }}
+                                        </option>       
+                                    @endforeach
                                 </select>
                               </div>
                                 <div class="form-group">
                                     <label>Stok</label>
-                                    <input type="text" class="form-control" name="stok" required>
+                                    <input type="number" class="form-control" name="stok" value="{{$barang->stok}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Harga</label>
-                                    <input type="text" class="form-control" name="harga" required>
+                                    <label>Harga Jual</label>
+                                    <input type="number" class="row-cols-1 form-control" id="num" name="harga" value="{{$barang->harga}}" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
+                                   
                                 </div>
-                                <div class="form-group">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control" required>
-                                        <option>-Pilih-</option>
-                                        <option value="Kritis">Kritis</option>
-                                        <option value="Ready">Ready</option>
-                                    </select>
-                                </div>
-    
-                                <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
+                                <button class="btn btn-primary btn-flat btn-block btn-sm">UPDATE</button>
     
                             </form>
                         </div>
@@ -245,6 +260,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+<script src="{{asset('/js/my.js')}}"></script>
 
 @yield('script')
 </body>

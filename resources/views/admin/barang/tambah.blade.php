@@ -20,7 +20,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+  <script>
+    function formatCurrency(num) {
+      num = num.toString().replace(/\$|\,/g,'');
+      if(isNaN(num))
+      num = "0";
+      sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num*100+0.50000000001);
+      cents = num%100;
+      num = Math.floor(num/100).toString();
+      if(cents<10)
+      cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+      num = num.substring(0,num.length-(4*i+3))+'.'+
+      num.substring(num.length-(4*i+3));
+      return (((sign)?'':'-') + 'Rp' + num);
+    }
+</script>
   @yield('style-ajalah')
 
 </head>
@@ -177,11 +193,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h5><i class="fa fa-plus"></i>  TAMBAH DATA BARANG</h5>
                         </div>
                         <div class="card-body">
+                          @if ($errors->any())
+                            <div class="alert alert-danger" align="left">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          @endif
                             <form action="{{ url('/add-barang') }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Barang</label>
-                                    <input type="text" class="form-control" name="name">
+                                    <input type="text" class="form-control" name="name" required>
                                 </div>
                                 <div class="form-group">
                                   <label>Kategori Barang</label>
@@ -194,11 +219,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>
                                 <div class="form-group">
                                     <label>Stok</label>
-                                    <input type="text" class="form-control" name="stok" required>
+                                    <input type="number" class="form-control" name="stok" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Harga</label>
-                                    <input type="text" class="form-control" name="harga" required>
+                                    <input type="number" class="form-control" id="num" name="harga"  onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
+
                                 </div>
                                 <div class="form-group">
                                     <label>Status</label>

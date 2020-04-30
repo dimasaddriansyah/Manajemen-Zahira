@@ -6,29 +6,27 @@ use Illuminate\Http\Request;
 use App\admin;
 use App\pegawai;
 use Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-
+use RealRashid\SweetAlert\Facades\Alert;
 
 class login extends Controller
 {
     public function index(){
-        $title = 'Menu Login';
  
-        return view('/masuk',compact('title'));
+        return view('/masuk');
     }
 
     function masuk(Request $request)
     {
         if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
             // if successful, then redirect to their intended location
-            alert()->message('Selamat Datang !')->autoclose(2500);
+            toast('Anda Sebagai Admin','info');
 
             return redirect()->intended('/admin/index');
         }else if (Auth::guard('pegawai')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->intended('/pegawai/index');
         }else{
             //Gagal Login
+            alert()->error('Gagal Login', 'Error');
             return redirect('/masuk')->with('alert','Password atau Email, Salah !');
         }
     }

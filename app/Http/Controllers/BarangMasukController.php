@@ -37,22 +37,49 @@ class BarangMasukController extends Controller
 
     public function addBarangMasuk(Request $request){
         $barang_masuk = new barang_masuk();
+
         $tanggal = Carbon::now();
 
-        $barang_masuk->supplier_id = $request->barang;
         $barang_masuk->barang_id = $request->supplier;
-        $barang_masuk->tgl_masuk = $tanggal;
+        $barang_masuk->supplier_id = $request->barang;
+        $barang_masuk->harga_beli= $request->harga_beli;
         $barang_masuk->jumlah_masuk = $request->jumlah;
+        $barang_masuk->tgl_masuk = $tanggal;
+
         $barang_masuk->save();
 
         $barang = barang::find($request->barang);
         $barang->stok = $barang->stok + $request->jumlah;
         $barang->update();
 
-        alert()->info('Stok Berhasil Di Tambah !', 'Success');
+        alert()->success('Stok Berhasil Di Tambah !', 'Success');
         return redirect('/admin/barang/index');
 
         
+    }
+
+    public function formBarangMasuk($id){
+        $barang_masuk = barang_masuk::where('id', $id)->first();
+        $barang = barang::All();
+        $supplier = supplier::All();
+
+        return view('/admin/barang_masuk/edit', compact('barang_masuk', 'barang', 'supplier'));
+    }
+    public function editBarangMasuk(Request $request,$id){
+        barang_masuk::where('id', $id)
+                ->update([
+                    'supplier_id'=>$request->barang,
+                    'barang_id'=>$request->supplier,
+                    'harga_beli'=> $request->harga_beli,
+                    'jumlah_masuk'=>$request->jumlah,
+                ]);
+        
+        $barang = barang::find($request->barang);
+        $barang->stok = $barang->stok + $request->jumlah;
+        $barang->update();
+
+    alert()->success('Barang Masuk Berhasil Di Update !', 'Success');
+    return redirect('/admin/barang_masuk/index');
     }
 
     public function deleteBarangMasuk($id){

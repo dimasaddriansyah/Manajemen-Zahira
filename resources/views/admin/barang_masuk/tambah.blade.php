@@ -20,7 +20,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+  <script>
+    function formatCurrency(num) {
+      num = num.toString().replace(/\$|\,/g,'');
+      if(isNaN(num))
+      num = "0";
+      sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num*100+0.50000000001);
+      cents = num%100;
+      num = Math.floor(num/100).toString();
+      if(cents<10)
+      cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+      num = num.substring(0,num.length-(4*i+3))+'.'+
+      num.substring(num.length-(4*i+3));
+      return (((sign)?'':'-') + 'Rp. ' + num);
+    }
+</script>
   @yield('style-ajalah')
 
 </head>
@@ -170,14 +186,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="row">
             <div class="col-md-12">
               <a href="{{ url('/admin/barang_masuk/index')}}" class="btn btn-primary"><i class="fas fa-arrow-circle-left">  KEMBALI</i></a>
-          </div>
+            </div>
               <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-header">
                             <h5><i class="fa fa-plus"></i>  TAMBAH DATA BARANG MASUK</h5>
                         </div>
-                        <div class="col-12 mt-3">
+                        <div class="col-12">
                         <div class="card-body">
+                          @if ($errors->any())
+                            <div class="alert alert-danger" align="left">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          @endif
                             <form action="{{ url('/add-barang_masuk') }}" method="post">
                                 @csrf
                                 <div class="form-group">
@@ -186,14 +211,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                       @foreach($barang as $barang)
                                         <option value="{{$barang->id}}">{{$barang->name}}</option>
                                       @endforeach
-                                    </select></div>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                   <label>Nama Supplier</label>
-                                  <select name="supplier" class="form-control" required>
+                                  <select name="supplier" class="form-control">
                                     @foreach($supplier as $supplier)
                                       <option value="{{$supplier->id}}">{{$supplier->name}}</option>
-                                    @endforeach</select>
+                                    @endforeach
+                                  </select>
                               </div>
+                              <div class="form-group">
+                                <label>Harga Beli</label>
+                                <input type="number" class="form-control" id="num" name="harga_beli" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
+                               </div>
                                 <div class="form-group">
                                     <label>Jumlah Barang</label>
                                     <input type="number" class="form-control" name="jumlah" required>

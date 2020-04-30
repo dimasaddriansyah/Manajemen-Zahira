@@ -178,6 +178,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h5><i class="fa fa-plus"></i>  TAMBAH DATA SUPPLIER</h5>
                         </div>
                         <div class="card-body">
+                          @if ($errors->any())
+                            <div class="alert alert-danger" align="left">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          @endif
                             <form action="{{ url('/add-supplier') }}" method="post">
                                 @csrf
                                 <div class="form-group">

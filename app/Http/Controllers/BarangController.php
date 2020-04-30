@@ -56,21 +56,22 @@ class BarangController extends Controller
         return redirect('/admin/barang/index');
     }
 
-    /*
-    public function formbarang($id){
+    public function formBarang($id){
         $barang = barang::where('id', $id)->first();
+        $kategori = kategori::All();
 
-        return view('/halaman-admin/content/edit', compact('barang'));
+        return view('/admin/barang/edit', compact('barang', 'kategori'));
     }
-    public function editbarang(Request $request,$id){
+    public function editBarang(Request $request,$id){
         barang::where('id', $id)
                 ->update([
-                    'nama'=>$request->nama,
-                    'harga'=>$request->harga,
+                    'name'=>$request->name,
+                    'kategori_id'=>$request->kategori,
                     'stok'=>$request->stok,
-                    'keterangan'=>$request->keterangan,
+                    'harga'=>$request->harga,
                 ]);
 
-    return redirect('/halaman-admin/content/barang');
-    }*/
+    alert()->success('Barang Berhasil Di Update !', 'Success');
+    return redirect('/admin/barang/index');
+    }
 }

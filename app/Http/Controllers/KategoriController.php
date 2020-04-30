@@ -27,20 +27,51 @@ class KategoriController extends Controller
     }
 
     public function addKategori(Request $request){
-        $kategori = new kategori();
+        $this->validate($request, [
+            'name' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
+        ],
+        [
+            'name.required' => 'Harus Mengisi Bagian Nama !',
+            'name.min' => 'Minimal 4 Karakter !',
+            'name.regex' => 'Inputan Nama Tidak Valid !',
+        ]);
 
-        $kategori->name = $request->name;
+        $kategori = new kategori();
+        $kategori->name = ucwords($request->name);
         $kategori->save();
 
         alert()->success('Kategori Berhasil Di Tambah !', 'Success');
         return redirect('/admin/kategori/index');
+    }
 
+    public function formKategori($id){
+        $kategori = kategori::where('id', $id)->first();
+
+        return view('/admin/kategori/edit', compact('kategori'));
+    }
+    public function editKategori(Request $request,$id){
+        $this->validate($request, [
+            'name' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
+        ],
+        [
+            'name.required' => 'Harus Mengisi Bagian Nama !',
+            'name.min' => 'Minimal 4 Karakter !',
+            'name.regex' => 'Inputan Nama Tidak Valid !',
+        ]);
         
+        kategori::where('id', $id)
+                ->update([
+                    'name'=>$request->name,
+                ]);
+
+    alert()->success('Kategori Barang Berhasil Di Update !', 'Success');
+    return redirect('/admin/kategori/index');
     }
 
     public function deleteKategori($id){
         kategori::where('id', $id)->delete();
 
+        alert()->error('Kategori Barang Berhasil Di Hapus !', 'Hapus');
         return redirect('/admin/kategori/index');
     }
 }

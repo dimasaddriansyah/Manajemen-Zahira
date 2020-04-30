@@ -21,6 +21,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="sweetalert2.all.min.js"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
   
   @yield('style-ajalah')
 
@@ -171,13 +174,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <div>
-                  <a href="{{url('/admin/pegawai/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH AKUN</i></a>
-                  <form action="search" method="GET">
-                    <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
-                        class="btn btn-light">
-                    <input type="submit" value="Cari" class="btn btn-success">
-                </form>
+                <div class="row">
+                  <div class="col">
+                    <a href="{{url('/admin/pegawai/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH AKUN</i></a>
+                  </div>
+                  <div class="col" align="right">
+                    <form action="search" method="GET">
+                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
+                          class="btn btn-light">
+                      <input type="submit" value="Cari" class="btn btn-primary">
+                  </form>
+                  </div>
                 </div>
             </div>
                 <div class="col-12 mt-3">
@@ -204,6 +211,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <td>{{$pegawai->no_hp}}</td>
                                             <td>
                                                 <center>
+                                                <a href="{{url('/form-pegawai/'.$pegawai->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
                                                 <a href="{{url('/delete-pegawai/'.$pegawai->id)}}" class="btn btn-xs btn-danger btn-flat" onclick="
                                                   return confirm('Anda Yakin Akan Menghapus Data ?');"><i class="fa fa-trash"></i></a>
                                                 </center>
@@ -258,6 +266,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+<script src="sweetalert2.all.min.js"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @include('sweet::alert')
 
