@@ -40,7 +40,6 @@ class KategoriController extends Controller
         $kategori->name = ucwords($request->name);
         $kategori->save();
 
-        alert()->success('Kategori Berhasil Di Tambah !', 'Success');
         return redirect('/admin/kategori/index');
     }
 
@@ -61,17 +60,15 @@ class KategoriController extends Controller
         
         kategori::where('id', $id)
                 ->update([
-                    'name'=>$request->name,
+                    'name'=>ucwords($request->name),
                 ]);
 
-    alert()->success('Kategori Barang Berhasil Di Update !', 'Success');
     return redirect('/admin/kategori/index');
     }
 
     public function deleteKategori($id){
         kategori::where('id', $id)->delete();
 
-        alert()->error('Kategori Barang Berhasil Di Hapus !', 'Hapus');
         return redirect('/admin/kategori/index');
     }
 }

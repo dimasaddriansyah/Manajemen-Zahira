@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 use App\barang;
 use App\kategori;
+use App\lp_barang_masuk;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -12,16 +13,10 @@ use Illuminate\Http\Request;
 class BarangController extends Controller
 {
     public function tampilTambah(){
-        $kategori = kategori::All();
-       
-        return view('/admin/barang/tambah', compact('kategori'));
-    }
-
-    public function tampilEdit(){
-        $barang = barang::All();
+        $barang = barang::all();
         $kategori = kategori::All();
 
-        return view('/admin/barang/tambah');
+        return view('/admin/barang/tambah', compact('barang' ,'kategori'));
     }
 
     public function getBarang(){
@@ -32,18 +27,25 @@ class BarangController extends Controller
     }
 
     public function addBarang(Request $request){
+        //Simpan Ke Database Barang
         $barang = new barang();
-        $tanggal = Carbon::now();
+        $tanggall = Carbon::now();
+ 
 
         $barang->name = $request->name;
         $barang->kategori_id = $request->kategori;
         $barang->stok = $request->stok;
         $barang->harga = $request->harga;
-        $barang->tanggal = $tanggal;
+        $barang->tanggal = $tanggall;
         $barang->status = $request->status;
         $barang->save();
+
+        /*Simpan Ke Database Laporan Barang Masuk
+        $lp_barang_masuk = new lp_barang_masuk;
+        $lp_barang_masuk->harga_jual = $barang->harga;
+        $lp_barang_masuk->save();
+        */
   
-        alert()->success('Barang Berhasil Di Tambah !', 'Success');
         return redirect('/admin/barang/index');
 
         
@@ -52,7 +54,6 @@ class BarangController extends Controller
     public function deleteBarang($id){
         barang::where('id', $id)->delete();
 
-        alert()->error('Data Barang Berhasil Di Hapus !', 'Delete');
         return redirect('/admin/barang/index');
     }
 
@@ -71,7 +72,6 @@ class BarangController extends Controller
                     'harga'=>$request->harga,
                 ]);
 
-    alert()->success('Barang Berhasil Di Update !', 'Success');
     return redirect('/admin/barang/index');
     }
 }

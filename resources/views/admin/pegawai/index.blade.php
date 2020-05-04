@@ -20,10 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="sweetalert2.all.min.js"></script>
-<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+  
   
   @yield('style-ajalah')
 
@@ -179,7 +176,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="{{url('/admin/pegawai/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH AKUN</i></a>
                   </div>
                   <div class="col" align="right">
-                    <form action="search" method="GET">
+                    <form action="cari" method="GET">
                       <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
                           class="btn btn-light">
                       <input type="submit" value="Cari" class="btn btn-primary">
@@ -221,7 +218,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tbody>
                             </table>
                             <br>
-                            Jumlah Data : {{ $pegawais->count() }}
+                            <!-- Jumlah Data Per Halaman : {{ $pegawais->perPage() }} <br> -->
+                            Jumlah Data Semua : {{ $pegawais->total() }}
                             {{ $pegawais->links() }}
                            
                         </div>
@@ -266,11 +264,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-<script src="sweetalert2.all.min.js"></script>
-<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-@include('sweet::alert')
+
 
 @yield('script')
 </body>

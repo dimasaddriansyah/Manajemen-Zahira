@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 use App\pegawai;
 use Illuminate\Http\Request;
-use SweetAlert;
 
 class PegawaiController extends Controller
 {
@@ -26,10 +25,10 @@ class PegawaiController extends Controller
         return view('/admin/pegawai/index', compact('pegawais'));
     }
 
-    public function searchPegawai(Request $request)
+    public function cari(Request $request)
     {
-        $cari = $request->get('cari');
-        $pegawai = pegawai::where('name','LIKE','%'.$cari.'%')->get();
+        $cari = $request->cari;
+        $pegawai = pegawai::where('name','LIKE','%'.$cari.'%')->paginate();
         return view('/admin/pegawai/index',compact('pegawai'));
     }
 
@@ -56,14 +55,13 @@ class PegawaiController extends Controller
         ]);
         $pegawai = new pegawai();
 
-        $pegawai->name = $request->name;
+        $pegawai->name = ucwords($request->name);
         $pegawai->email = $request->email;
         $pegawai->password = bcrypt($request->password);
         $pegawai->alamat = $request->alamat;
         $pegawai->no_hp = $request->no_hp;
         $pegawai->save();
 
-        alert()->success('Akun Berhasil Di Tambah !', 'Success');
         return redirect('/admin/pegawai/index');
 
         
@@ -73,7 +71,6 @@ class PegawaiController extends Controller
         pegawai::where('id', $id)->delete();
 
         //alert()->message('BERHASIL DIHAPUSSSSS','<img src="/images/trash-solid.svg" width="200">')->html();
-        alert()->message('<img src="/images/trash-solid.svg" width="90">', 'Terhapus !!')->html();
         return redirect('/admin/pegawai/index');
     }
 
@@ -102,13 +99,12 @@ class PegawaiController extends Controller
     ]);
     pegawai::where('id', $id)
             ->update([
-                'name'=>$request->name,
+                'name'=>ucwords($request->name),
                 'email'=>$request->email,
                 'alamat'=>$request->alamat,
                 'no_hp'=>$request->no_hp,
             ]);
 
-    alert()->success('Akun Berhasil Di Update !', 'Success');
     return redirect('/admin/pegawai/index');
     }
 }

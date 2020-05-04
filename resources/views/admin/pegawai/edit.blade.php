@@ -191,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 @csrf
                                 <div class="form-group">
                                   <label>Nama Pegawai</label>
-                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $pegawai->name }}" >
+                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $pegawai->name }}" style="text-transform: capitalize;">
                                   @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
                               </div>
                               <div class="form-group">

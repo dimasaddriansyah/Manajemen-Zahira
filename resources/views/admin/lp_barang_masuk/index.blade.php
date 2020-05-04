@@ -12,7 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>Admin | Dashboard</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{{asset('/tampilan-admin/plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('/tampilan-admin/dist/css/adminlte.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
@@ -20,7 +20,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-
+  <script>
+    function formatCurrency(num) {
+      num = num.toString().replace(/\$|\,/g,'');
+      if(isNaN(num))
+      num = "0";
+      sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num*100+0.50000000001);
+      cents = num%100;
+      num = Math.floor(num/100).toString();
+      if(cents<10)
+      cents = "0" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+      num = num.substring(0,num.length-(4*i+3))+'.'+
+      num.substring(num.length-(4*i+3));
+      return (((sign)?'':'-') + 'Rp. ' + num);
+    }
+</script>
   
   @yield('style-ajalah')
 
@@ -146,13 +162,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ url('/admin/lp_barang_masuk/index') }}" class="nav-link">
+                <a href="{{ url('/admin/laporan_barang_masuk/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-user-tie"></i>
                   <p>Laporan Barang Masuk</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/lp_barang_keluar/index') }}" class="nav-link">
+                <a href="{{ url('/admin/laporan_barang_keluar/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-user"></i>
                   <p>Laporan Barang Keluar</p>
                 </a>
@@ -175,7 +191,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </aside>
 
 
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -190,95 +205,61 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="row">
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-grey">
-          <div class="inner">
-          <h3>{{ $pegawai->count() }}</h3>
-
-            <p>Akun Pegawai</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-user"></i>
-          </div>
-          <a href="{{ url('/admin/pegawai/index') }}" class="small-box-footer">
-            More info <i class="fa fa-arrow-circle-right"></i>
-          </a>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col" align="right">
+                    <form action="search" method="GET">
+                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
+                          class="btn btn-light">
+                      <input type="submit" value="Cari" class="btn btn-primary">
+                  </form>
+                  </div>
+                </div> 
+              </div>
+                <div class="col-12 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Supplier</th>
+                                        <th>Nama Barang</th>
+                                        <th>Harga Beli</th>
+                                        <th>Harga Jual</th>
+                                        <th>Jumlah Barang</th>
+                                        <th>Tanggal Masuk</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($lp_barang_masuk as $key => $lp_barang_masuk)
+                                        <tr>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$lp_barang_masuk->supplier->name}}</td>
+                                            <td>{{$lp_barang_masuk->barang->name}}</td>
+                                            <td>@currency($lp_barang_masuk->harga_beli)</td>
+                                            <td>@currency($lp_barang_masuk->barang->harga)</td>
+                                            <td>{{$lp_barang_masuk->jumlah_masuk}}</td>
+                                            <td>{{$lp_barang_masuk->tgl_masuk}}</td>
+                                        </tr>
+        
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
         </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-blue">
-          <div class="inner">
-            <h3>{{ $supplier->count() }}</h3>
-
-            <p>Data Supplier</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-user"></i>
-          </div>
-          <a href="{{ url('/admin/supplier/index') }}" class="small-box-footer">
-            More info <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-red">
-          <div class="inner">
-          <h3>{{ $barang->count()}}</h3>
-
-            <p>Data Stok Barang</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-cubes"></i>
-          </div>
-          <a href="{{ url('/admin/barang/index') }}" class="small-box-footer">
-            More info <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-purple">
-          <div class="inner">
-          <h3>{{ $barang_masuk->count()}}</h3>
-
-            <p>Data Barang Masuk</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-cubes"></i>
-          </div>
-          <a href="{{ url('/admin/barang_masuk/index') }}" class="small-box-footer">
-            More info <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-green">
-          <div class="inner">
-            <h3>-</h3>
-
-            <p>Laporan Keuangan</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <a href="#" class="small-box-footer">
-            More info <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
     </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+    
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -310,6 +291,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+
 
 @yield('script')
 </body>

@@ -7,7 +7,6 @@ use App\barang_masuk;
 use App\supplier;
 use App\barang;
 use Carbon\Carbon;
-use SweetAlert;
 
 class BarangMasukController extends Controller
 {
@@ -40,8 +39,8 @@ class BarangMasukController extends Controller
 
         $tanggal = Carbon::now();
 
-        $barang_masuk->barang_id = $request->supplier;
-        $barang_masuk->supplier_id = $request->barang;
+        $barang_masuk->barang_id = $request->barang;
+        $barang_masuk->supplier_id = $request->supplier;
         $barang_masuk->harga_beli= $request->harga_beli;
         $barang_masuk->jumlah_masuk = $request->jumlah;
         $barang_masuk->tgl_masuk = $tanggal;
@@ -52,7 +51,6 @@ class BarangMasukController extends Controller
         $barang->stok = $barang->stok + $request->jumlah;
         $barang->update();
 
-        alert()->success('Stok Berhasil Di Tambah !', 'Success');
         return redirect('/admin/barang/index');
 
         
@@ -68,22 +66,23 @@ class BarangMasukController extends Controller
     public function editBarangMasuk(Request $request,$id){
         barang_masuk::where('id', $id)
                 ->update([
-                    'supplier_id'=>$request->barang,
-                    'barang_id'=>$request->supplier,
+                    'supplier_id'=>$request->supplier,
+                    'barang_id'=>$request->barang,
                     'harga_beli'=> $request->harga_beli,
                     'jumlah_masuk'=>$request->jumlah,
                 ]);
         
-        $barang = barang::find($request->barang);
-        $barang->stok = $barang->stok + $request->jumlah;
-        $barang->update();
-
-    alert()->success('Barang Masuk Berhasil Di Update !', 'Success');
     return redirect('/admin/barang_masuk/index');
     }
 
     public function deleteBarangMasuk($id){
-        barang_masuk::where('id', $id)->delete();
+        $barang_masuk = barang_masuk::where('id', $id)->first();
+        $barang = barang::where('id', $barang_masuk->barang->id)->first();
+
+        $barang->stok = $barang->stok - $barang_masuk->jumlah;
+
+        $barang->update();
+        $barang_masuk->delete();
 
         return redirect('/admin/barang_masuk/index');
     }

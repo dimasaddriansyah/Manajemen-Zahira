@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-
 Auth::routes();
 
 Route::get('/', function () {
@@ -25,7 +23,7 @@ Route::group(['middleware'=>'auth:admin'],function(){
     Route::get('/form-pegawai/{id}', 'PegawaiController@formPegawai');
     Route::post('/edit-pegawai/{id}', 'PegawaiController@editPegawai');
     Route::get('/delete-pegawai/{id}', 'PegawaiController@deletePegawai');
-    Route::get('/search-pegawai', 'PegawaiController@searchPegawai');
+    Route::get('/cari', 'PegawaiController@cari');
 
     //Data Supplier
     Route::get('/admin/supplier/index', 'SupplierController@getSupplier');
@@ -58,6 +56,12 @@ Route::group(['middleware'=>'auth:admin'],function(){
     Route::get('/form-barang_masuk/{id}', 'BarangMasukController@formBarangMasuk');
     Route::post('/edit-barang_masuk/{id}', 'BarangMasukController@editBarangMasuk');
     Route::get('/delete-barang_masuk/{id}', 'BarangMasukController@deleteBarangMasuk');
+
+    //Laporan Barang Masuk
+    Route::get('/admin/lp_barang_masuk/index', 'LPMasukController@Index');
+
+    //Laporan Barang Keluar
+    Route::get('/admin/lp_barang_keluar/index', 'LPKeluarController@Index');
 
 });
 

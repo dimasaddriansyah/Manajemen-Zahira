@@ -20,7 +20,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   
   @yield('style-ajalah')
@@ -253,8 +252,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-@include('sweet::alert')
 
 @yield('script')
 </body>

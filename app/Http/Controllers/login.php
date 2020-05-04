@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\admin;
 use App\pegawai;
 use Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class login extends Controller
 {
@@ -19,7 +18,6 @@ class login extends Controller
     {
         if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
             // if successful, then redirect to their intended location
-            toast('Anda Sebagai Admin','info');
 
             return redirect()->intended('/admin/index');
         }else if (Auth::guard('pegawai')->attempt(['email' => $request->email, 'password' => $request->password])) {

@@ -206,24 +206,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Barang</label>
-                                    <input type="text" class="form-control" name="name" required>
+                                    <input type="text" class="form-control" name="name" style="text-transform: capitalize;">
                                 </div>
                                 <div class="form-group">
                                   <label>Kategori Barang</label>
                                   <select name="kategori" class="form-control" required>
-                                    <option>-Pilih-</option>
-                                    <option value="Alat Masak">Alat Masak</option>
-                                    <option value="Alat Mandi">Alat Mandi</option>
-                                    <option value="Alat Pembersih">Alat Pembersih</option>
-                                </select>
+                                    @foreach($kategori as $kategori)
+                                        <option value="{{$kategori->id}}">{{$kategori->name}}</option>
+                                      @endforeach
+                                  </select>
                               </div>
                                 <div class="form-group">
                                     <label>Stok</label>
-                                    <input type="number" class="form-control" name="stok" required>
+                                    <input type="number" class="form-control" name="stok" >
                                 </div>
                                 <div class="form-group">
                                     <label>Harga</label>
-                                    <input type="number" class="form-control" id="num" name="harga"  onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
+                                    <input type="number" class="form-control" id="num" name="harga"  onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" >Nominal : <span id="format"></span>
 
                                 </div>
                                 <div class="form-group">
