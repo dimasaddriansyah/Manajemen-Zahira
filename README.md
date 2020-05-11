@@ -4,7 +4,7 @@
 2. Buka Folder Manajemen Zahira
 3. Buka CMD / Git Bash
 4. Ketik composer install
-5. Ketik .env.example .env
+5. Ketik cp .env.example .env
 6. Buat Database di phpmyadmin
 7. Buka File .env
 8. Setting Database sama dengan yang di phpmyadmin
