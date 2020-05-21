@@ -7,6 +7,7 @@ use App\barang_masuk;
 use App\supplier;
 use App\barang;
 use Carbon\Carbon;
+use SweetAlert;
 
 class BarangMasukController extends Controller
 {
@@ -16,7 +17,6 @@ class BarangMasukController extends Controller
         $barang = barang::All();
         $supplier = supplier::All();
         return view('/admin/barang_masuk/index', compact('data', 'barang' , 'supplier'));
-        // echo $barang_masuk;
     }
 
     public function tampilTambah(){
@@ -27,10 +27,14 @@ class BarangMasukController extends Controller
         return view('/admin/barang_masuk/tambah', compact('data', 'barang', 'supplier'));
     }
 
+    public function json(){
+        return Datatables::of(barang::all())->make(true);
+    }
+    
     public function search(Request $request)
     {
         $cari = $request->get('cari');
-        $data = barang_masuk::where('tgl_masuk','LIKE','%'.$cari.'%')->get();
+        $data = barang_masuk::where('name','LIKE',"%".$cari."%")->get();
         return view('/admin/barang_masuk/index',compact('data'));
     }
 
@@ -44,13 +48,14 @@ class BarangMasukController extends Controller
         $barang_masuk->harga_beli= $request->harga_beli;
         $barang_masuk->jumlah_masuk = $request->jumlah;
         $barang_masuk->tgl_masuk = $tanggal;
-
         $barang_masuk->save();
 
         $barang = barang::find($request->barang);
-        $barang->stok = $barang->stok + $request->jumlah;
+        $stok_sementara = $barang->stok + $request->jumlah; 
+        $barang->stok = $stok_sementara;
         $barang->update();
 
+        alert()->success('Data Berhasil Di Tambah dan Stok Bertambah !', 'Success');
         return redirect('/admin/barang/index');
 
         
@@ -71,19 +76,21 @@ class BarangMasukController extends Controller
                     'harga_beli'=> $request->harga_beli,
                     'jumlah_masuk'=>$request->jumlah,
                 ]);
-        
+    
+    alert()->success('Data Berhasil Di Update !', 'Success');
     return redirect('/admin/barang_masuk/index');
     }
 
-    public function deleteBarangMasuk($id){
+    public function deleteBarangMasuk(Request $request,$id){
         $barang_masuk = barang_masuk::where('id', $id)->first();
         $barang = barang::where('id', $barang_masuk->barang->id)->first();
 
-        $barang->stok = $barang->stok - $barang_masuk->jumlah;
-
+        $barang->stok = $barang_masuk->barang->stok-$barang_masuk->jumlah_masuk;
         $barang->update();
-        $barang_masuk->delete();
 
+        $barang_masuk->delete();
+    
+        alert()->error('Data Terhapus !', 'Deleted');
         return redirect('/admin/barang_masuk/index');
     }
 }

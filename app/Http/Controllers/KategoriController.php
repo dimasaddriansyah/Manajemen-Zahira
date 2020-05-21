@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\kategori;
+use SweetAlert;
 
 class KategoriController extends Controller
 {
@@ -40,6 +41,7 @@ class KategoriController extends Controller
         $kategori->name = ucwords($request->name);
         $kategori->save();
 
+        alert()->success('Data Berhasil Di Tambah !', 'Success');
         return redirect('/admin/kategori/index');
     }
 
@@ -62,13 +64,15 @@ class KategoriController extends Controller
                 ->update([
                     'name'=>ucwords($request->name),
                 ]);
-
+    
+    alert()->success('Data Berhasil Di Update !', 'Success');
     return redirect('/admin/kategori/index');
     }
 
     public function deleteKategori($id){
         kategori::where('id', $id)->delete();
 
+        alert()->error('Data Terhapus !', 'Deleted');
         return redirect('/admin/kategori/index');
     }
 }

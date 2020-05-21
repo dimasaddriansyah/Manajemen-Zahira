@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\admin;
 use App\pegawai;
 use Auth;
+use SweetAlert;
 
 class login extends Controller
 {
@@ -18,13 +19,14 @@ class login extends Controller
     {
         if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
             // if successful, then redirect to their intended location
-
+            alert()->basic('Anda Login Sebagai Admin', 'Hello');
             return redirect()->intended('/admin/index');
         }else if (Auth::guard('pegawai')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            alert()->basic('Anda Login Sebagai Pegawai', 'Hello');
             return redirect()->intended('/pegawai/index');
         }else{
             //Gagal Login
-            alert()->error('Gagal Login', 'Error');
+            alert()->error('Password atau Email, Salah !', 'Gagal Login !');
             return redirect('/masuk')->with('alert','Password atau Email, Salah !');
         }
     }

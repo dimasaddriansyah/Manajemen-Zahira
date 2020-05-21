@@ -20,6 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <script src="{{ asset('js/app.js') }}"></script>
+
 
   
   @yield('style-ajalah')
@@ -135,6 +137,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
             </ul>
+            <li class="nav-item">
+              <a href="{{ url('/admin/transaksi/index') }}" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Laporan Transaksi
+                </p>
+              </a>
+            </li>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -182,7 +192,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <input type="submit" value="Cari" class="btn btn-primary">
                   </form>
                   </div>
-                </div></div>
+                </div>
+              </div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
@@ -197,7 +208,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($supplier as $key => $supplier)
+                                    @foreach($suppliers as $key => $supplier)
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$supplier->name}}</td>
@@ -215,6 +226,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @endforeach
                                 </tbody>
                             </table>
+                            <br>
+                            Jumlah Data Semua : {{ $suppliers->total() }}
+                            {{ $suppliers->links() }}
                         </div>
                     </div>
                 </div>
@@ -257,7 +271,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-
+@include('sweet::alert')
 @yield('script')
 </body>
 </html>

@@ -20,6 +20,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
+
   
   
   @yield('style-ajalah')
@@ -135,6 +138,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
             </ul>
+            <li class="nav-item">
+              <a href="{{ url('/admin/transaksi/index') }}" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Laporan Transaksi
+                </p>
+              </a>
+            </li>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -176,9 +187,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="{{url('/admin/pegawai/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH AKUN</i></a>
                   </div>
                   <div class="col" align="right">
-                    <form action="cari" method="GET">
-                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
-                          class="btn btn-light">
+                    <form action="/pegawai/cari" method="GET">
+                      <input type="text" name="cari" class="btn btn-light" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}">
                       <input type="submit" value="Cari" class="btn btn-primary">
                   </form>
                   </div>
@@ -264,6 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+@include('sweet::alert')
 
 
 @yield('script')

@@ -5,19 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 use App\pegawai;
 use Illuminate\Http\Request;
+use SweetAlert;
+
 
 class PegawaiController extends Controller
 {
     public function tampilTambah(){
 
         return view('/admin/pegawai/tambah');
-    }
-
-    public function tampilEdit(){
-        $pegawai = pegawai::All();
-
-        return view('/admin/pegawai/edit', compact('pegawai'));
-    }    
+    } 
 
     public function getPegawai(){
         $pegawais = pegawai::paginate(5);
@@ -28,23 +24,25 @@ class PegawaiController extends Controller
     public function cari(Request $request)
     {
         $cari = $request->cari;
-        $pegawai = pegawai::where('name','LIKE','%'.$cari.'%')->paginate();
-        return view('/admin/pegawai/index',compact('pegawai'));
+        $pegawais = pegawai::where('name','LIKE',"%".$cari."%")->paginate(5);
+        return view('/admin/pegawai/index',compact('pegawais'));
     }
 
     public function addPegawai(Request $request){
         $this->validate($request, [
-            'name' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
-            'email' => 'required|email',
+            'name' => 'required|unique:pegawai|min:4|regex:/^[\pL\s\-]+$/u',
+            'email' => 'required|unique:pegawai|email',
             'password' => 'required|min:6',
             'alamat' => 'required|min:6',
-            'no_hp' => 'required|min:10|numeric',
+            'no_hp' => 'required|min:10|numeric|unique:pegawai',
         ],
         [
             'name.required' => 'Harus Mengisi Bagian Nama !',
             'name.min' => 'Minimal 4 Karakter !',
+            'name.unique' => 'Nama Sudah Terdaftar !',
             'name.regex' => 'Inputan Nama Tidak Valid !',
             'email.required' => 'Harus Mengisi Bagian Email !',
+            'email.unique' => 'Email Sudah Terdaftar !',
             'password.required' => 'Harus Mengisi Bagian Password !',
             'password.min' => 'Minimal 6 Karakter !',
             'alamat.required' => 'Harus Mengisi Bagian Alamat !',
@@ -52,16 +50,19 @@ class PegawaiController extends Controller
             'no_hp.required' => 'Harus Mengisi Bagian No Hp !',
             'no_hp.min' => 'Minimal 10 Karakter !',
             'no_hp.numeric' => 'Harus Pakai Nomer !',
+            'no_hp.unique' => 'No Hp Sudah Terdaftar !',
+
         ]);
         $pegawai = new pegawai();
 
         $pegawai->name = ucwords($request->name);
         $pegawai->email = $request->email;
         $pegawai->password = bcrypt($request->password);
-        $pegawai->alamat = $request->alamat;
+        $pegawai->alamat = ucwords($request->alamat);
         $pegawai->no_hp = $request->no_hp;
         $pegawai->save();
 
+        alert()->success('Data Berhasil Di Simpan','Success');
         return redirect('/admin/pegawai/index');
 
         
@@ -70,7 +71,7 @@ class PegawaiController extends Controller
     public function deletePegawai($id){
         pegawai::where('id', $id)->delete();
 
-        //alert()->message('BERHASIL DIHAPUSSSSS','<img src="/images/trash-solid.svg" width="200">')->html();
+        alert()->error('Data Terhapus','Deleted');
         return redirect('/admin/pegawai/index');
     }
 
@@ -101,10 +102,11 @@ class PegawaiController extends Controller
             ->update([
                 'name'=>ucwords($request->name),
                 'email'=>$request->email,
-                'alamat'=>$request->alamat,
+                'alamat'=>ucwords($request->alamat),
                 'no_hp'=>$request->no_hp,
             ]);
 
+    alert()->success('Data Berhasil Di Update','Success');
     return redirect('/admin/pegawai/index');
     }
 }

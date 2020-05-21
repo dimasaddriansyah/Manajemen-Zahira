@@ -26,6 +26,8 @@
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/css/main.css">
 <!--===============================================================================================-->
+<script src="{{ asset('js/app.js') }}"></script>
+
 </head>
 <body>
 	
@@ -96,6 +98,8 @@
 	<script src="/tampilan-login/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="/tampilan-login/js/main.js"></script>
+	@include('sweet::alert')
+
 
 </body>
 </html>

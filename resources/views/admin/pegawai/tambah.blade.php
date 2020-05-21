@@ -134,6 +134,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
             </ul>
+            <li class="nav-item">
+              <a href="{{ url('/admin/transaksi/index') }}" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Laporan Transaksi
+                </p>
+              </a>
+            </li>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -206,7 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                  </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
-                                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat') }}" >
+                                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat') }}" style="text-transform: capitalize;">
                                     @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
                                  </div>
                                 <div class="form-group">

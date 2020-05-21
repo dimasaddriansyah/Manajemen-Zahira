@@ -68,7 +68,8 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md ">
-                    Sistem Manajemen Stok Alat Perabotan Toko Zahira 
+                    Sistem Manajemen Stok Alat Perabotan Toko Zahira <br>
+                    1 Lagi Laporan Keuangan 
                 </div>
 
                 <div class="links">

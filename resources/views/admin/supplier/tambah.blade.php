@@ -134,6 +134,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
             </ul>
+            <li class="nav-item">
+              <a href="{{ url('/admin/transaksi/index') }}" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Laporan Transaksi
+                </p>
+              </a>
+            </li>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -181,6 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           @if ($errors->any())
                             <div class="alert alert-danger" align="left">
                                 <ul>
+                                  <p>Kesalahan !</p>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
@@ -191,15 +200,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Supplier</label>
-                                    <input type="text" class="form-control" name="name" required>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" style="text-transform: capitalize;" value="{{old('name')}}">
+                                    @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
+
                                 </div>
                                 <div class="form-group">
                                   <label>Alamat</label>
-                                  <input type="text" class="form-control" name="alamat" required>
+                                  <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" style="text-transform: capitalize;" value="{{old('alamat')}}">
+                                  @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
+
                                 </div>
                                 <div class="form-group">
                                     <label>No Hp</label>
-                                    <input type="text" class="form-control" name="no_hp" required>
+                                    <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{old('no_hp')}}">
+                                    @if ($errors->has('no_hp')) <span class="invalid-feedback"><strong>{{ $errors->first('no_hp') }}</strong></span> @endif
+
                                 </div>
     
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>

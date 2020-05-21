@@ -20,6 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <script src="{{ asset('js/app.js') }}"></script>
+
   <script>
     function formatCurrency(num) {
       num = num.toString().replace(/\$|\,/g,'');
@@ -151,6 +153,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
             </ul>
+            <li class="nav-item">
+              <a href="{{ url('/admin/transaksi/index') }}" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Laporan Transaksi
+                </p>
+              </a>
+            </li>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -222,7 +232,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <td>{{$barang_masuk->barang->name}}</td>
                                             <td>@currency($barang_masuk->harga_beli)</td>
                                             <td>{{$barang_masuk->jumlah_masuk}}</td>
-                                            <td>{{$barang_masuk->tgl_masuk}}</td>
+                                            <td>{{$barang_masuk->created_at}}</td>
                                             <td>
                                               <center>
                                               <a href="{{url('/form-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
@@ -277,6 +287,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+@include('sweet::alert')
 
 
 @yield('script')

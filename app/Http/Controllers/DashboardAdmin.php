@@ -8,6 +8,7 @@ use App\pegawai;
 use App\supplier;
 use App\barang;
 use App\barang_masuk;
+use App\transaksi_barang;
 
 class DashboardAdmin extends Controller
 {
@@ -18,8 +19,9 @@ class DashboardAdmin extends Controller
         $supplier = supplier::get();
         $barang = barang::get();
         $barang_masuk = barang_masuk::get();
+        $transaksi_barang = transaksi_barang::get();
         
-        return view('/admin/index', compact('admin', 'pegawai', 'supplier', 'barang', 'barang_masuk'));
+        return view('/admin/index', compact('admin', 'pegawai', 'supplier', 'barang', 'barang_masuk', 'transaksi_barang'));
 
     }
 }

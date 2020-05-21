@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use SweetAlert;
 
 class RedirectIfAuthenticated
 {
@@ -23,8 +24,10 @@ class RedirectIfAuthenticated
         //}
         
         if(Auth::guard('admin')->check()){
+            
             return redirect('/admin/index');
         }else if(Auth::guard('pegawai')->check()){
+
             return redirect('/pegawai/index');
         }
         return $next($request);

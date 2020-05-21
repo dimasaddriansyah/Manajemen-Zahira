@@ -17,4 +17,11 @@ class barang_masuk extends Model
 	{
 		return $this->belongsTo('App\supplier');
 	}
+
+	public function getCreatedAtAttribute()
+    {
+        \Carbon\Carbon::setLocale('id');
+    return \Carbon\Carbon::parse($this->attributes['created_at'])
+       ->translatedFormat('l, d F Y H:i');
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLpBarangMasukTable extends Migration
+class CreateTransaksiDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateLpBarangMasukTable extends Migration
      */
     public function up()
     {
-        Schema::create('lp_barang_masuk', function (Blueprint $table) {
+        Schema::create('transaksi_detail', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('supplier');
+            $table->unsignedBigInteger('transaksi_id');
+            $table->foreign('transaksi_id')->references('id')->on('transaksi');
             $table->unsignedBigInteger('barang_id');
             $table->foreign('barang_id')->references('id')->on('barang');
-            $table->integer('harga_beli');
-            $table->integer('harga_jual');
-            $table->date('tgl_masuk');
+            $table->integer('jumlah_beli');
+            $table->integer('jumlah_harga');
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ class CreateLpBarangMasukTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lp_barang_masuk');
+        Schema::dropIfExists('transaksi_detail');
     }
 }

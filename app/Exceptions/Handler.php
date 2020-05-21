@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use SweetAlert;
 
 class Handler extends ExceptionHandler
 {
@@ -60,7 +61,8 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
-    
+        
+        alert()->error('Ga Punya Akses !', 'Ngapain ?');
         return redirect()->guest('/masuk');
     }
 }

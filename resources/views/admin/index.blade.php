@@ -20,6 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <script src="{{ asset('js/app.js') }}"></script>
 
   
   @yield('style-ajalah')
@@ -136,28 +137,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon nav-icon fas fa-scroll"></i>
+          <li class="nav-item">
+            <a href="{{ url('/admin/transaksi/index') }}" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
               <p>
-                  Data Laporan
-                <i class="right fas fa-angle-left" ></i>
+                Laporan Transaksi
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url('/admin/lp_barang_masuk/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user-tie"></i>
-                  <p>Laporan Barang Masuk</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/lp_barang_keluar/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user"></i>
-                  <p>Laporan Barang Keluar</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -261,6 +247,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3>{{ $transaksi_barang->count()}}</h3>
+
+            <p>Laporan Transaksi</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-cash-register"></i>
+          </div>
+          <a href="{{ url('/admin/transaksi/index') }}" class="small-box-footer">
+            More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
             <h3>-</h3>
@@ -310,6 +313,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+  @include('sweet::alert')
 
 @yield('script')
 </body>
