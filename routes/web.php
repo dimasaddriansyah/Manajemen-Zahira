@@ -87,13 +87,6 @@ Route::group(['middleware'=>'auth:pegawai'],function(){
     Route::get('/pegawai/konfirmasi/{id}', 'DashboardPegawaiController@tampilKonfirmasi');
     Route::post('/add-konfirmasi/{id}', 'DashboardPegawaiController@konfirmasi');
     Route::get('/cetak_pdf/{id}', 'DashboardPegawaiController@cetak_pdf');
-
-
-
-
-
-
-
 });
 
 Route::group(['middleware'=>'guest'],function(){

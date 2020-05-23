@@ -88,62 +88,91 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @endforeach
                                 </ul>
                             </div>
-                          @endif
-                          <div class="col-12">
-                            <div class="col-md-12">
-                                <div class="row">
-                                  <div class="col">
-                                    <h2>Data Transaksi</h2>
-                                  </div>
-                                  <div class="float-right">
-                                    <h5>Tanggal Pemesanan : <b>{{ $transaksi_barang->created_at }}</b></h5>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <table class="table table-borderless mt-3">
-                                <thead>
-                                    <tr>
-                                        <td><strong>Nama Pembeli</strong></td>
-                                        <td>:</td>
-                                        <td>{{ $transaksi_barang->nama_pembeli }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Total Harga</strong></td>
-                                        <td>:</td>
-                                        <td>@currency($transaksi_barang->jumlah_harga)</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Uang Bayar</strong></td>
-                                        <td>:</td>
-                                        <td>@currency($transaksi_barang->uang_bayar)</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Kembali</strong></td>
-                                        <td>:</td>
-                                        <td>@currency($transaksi_barang->uang_bayar - $transaksi_barang->jumlah_harga)</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a class="btn btn-success float-left" href="{{ url('cetak_pdf')}}/{{$transaksi_barang->id }}"
-                                            target="_blank"><i class="fas fa-print"></i> Print</a></td>
-                                    </tr>
-                                </thead>
-                            </table>
                             @endif
-                        </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-borderless table-hover">
+                                        <h3 class="mt-4">Data Pembelian Barang</h3>
+                                            <thead>
+                                                <tr>
+                                                <th>No</th>
+                                                <th>Nama Barang</th>
+                                                <th>Jumlah Beli</th>
+                                                <th>Harga Satuan</th>
+                                                <th>Jumlah Harga</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($transaksi_detail as $key => $transaksi_detail)
+                                                <tr>
+                                                    <td>{{$key+1}}</td>
+                                                    <td>{{$transaksi_detail->barang->name}}</td>
+                                                    <td>{{ $transaksi_detail->jumlah_beli }}pcs</td>
+                                                    <td>@currency($transaksi_detail->barang->harga)</td>
+                                                    <td>@currency($transaksi_detail->jumlah_harga)</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col">
+                                        </div>
+                                        <div class="float-right">
+                                            <h6>Tanggal Pemesanan : <b>{{ $transaksi_barang->created_at }}</b></h6>
+                                        </div>
+                                        </div>
+                                        <h3 class="mt-2">Data Transaksi</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <td><strong>Nama Pembeli</strong></td>
+                                                    <td>:</td>
+                                                    <td>{{ $transaksi_barang->nama_pembeli }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Total Harga</strong></td>
+                                                    <td>:</td>
+                                                    <td>@currency($transaksi_barang->jumlah_harga)</td>
+                                                </tr>
+                                                    <tr>
+                                                    <td><strong>Uang Bayar</strong></td>
+                                                    <td>:</td>
+                                                    <td>@currency($transaksi_barang->uang_bayar)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Kembali</strong></td>
+                                                    <td>:</td>
+                                                    <td>@currency($transaksi_barang->uang_bayar - $transaksi_barang->jumlah_harga)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <a class="btn btn-success btn-lg float-right" href="{{ url('cetak_pdf')}}/{{$transaksi_barang->id }}"
+                                                            target="_blank"><i class="fas fa-print"></i> Print</a>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        @endif
+                                    </div>
+                                </div>             
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
+    
     <script src="{{asset('/tampilan-admin/plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-@include('sweet::alert')
+    <!-- Bootstrap 4 -->
+    <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+    @include('sweet::alert')
 
 </body>
 </html>

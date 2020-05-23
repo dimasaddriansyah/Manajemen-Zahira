@@ -101,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                         <div class="card-body">
                             @if(!empty($transaksi_barang))
-                            <table class="table table-hover mt-2 ">
+                            <table class="table table-hover mt-2">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -117,7 +117,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <tr>
                                             <td>{{++$no}}</td>
                                             <td>{{$transaksi_detail->barang->name}}</td>
-                                            <td>{{$transaksi_detail->jumlah_beli}} Barang</td>
+                                            <td>{{$transaksi_detail->jumlah_beli}} Pcs</td>
                                             <td>@currency($transaksi_detail->barang->harga)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
                                             <td>
@@ -161,17 +161,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           @endif
                           @if (!empty($transaksi_barang))
                           <form action="{{ url('/add-konfirmasi')}}/{{ $transaksi_barang->id }}" id="form1" name="form1" method="post">
-                            @endif
-
+                          @endif
                             @csrf
                                 <div class="form-group">
                                     <label>Nama Pembeli</label>
-                                    <input type="text" class="form-control @error('nama_pembeli') is-invalid @enderror" name="nama_pembeli" value="{{old('nama_pembeli')}}">
+                                    <input type="text" class="form-control @error('nama_pembeli') is-invalid @enderror" name="nama_pembeli" value="{{ old('nama_pembeli') }}">
                                     @if ($errors->has('nama_pembeli')) <span class="invalid-feedback"><strong>{{ $errors->first('nama_pembeli') }}</strong></span> @endif
                                 </div>
                                 <div class="form-group">
                                     <label>Total Harga</label>
-                                   
                                         <input type="text" class="form-control" name="total_harga"  onfocus="startCalculate()" onblur="stopCalc()" 
                                         @if (!empty($transaksi_barang))
                                             value="@currency($transaksi_barang->jumlah_harga)" 
@@ -188,7 +186,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -220,10 +217,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <label>Nama Barang</label>
                 <select name="barang" class="form-control">
                   @foreach($barang as $barang)
-                    <option value="{{$barang->id}}">{{$barang->name}}</option>
+                    <option value="{{$barang->id}}">{{$barang->name}} | Stok : {{ $barang->stok }}</option>
                   @endforeach
                 </select>
             </div>
+            
             <div class="form-group">
                 <label>Jumlah Beli</label>
                 <input type="number" class="form-control @error('jumlah_beli') is-invalid @enderror" name="jumlah_beli" value="{{old('jumlah_beli')}}">

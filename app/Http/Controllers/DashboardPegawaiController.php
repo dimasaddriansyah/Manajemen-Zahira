@@ -31,7 +31,8 @@ class DashboardPegawaiController extends Controller
     public function tampilKonfirmasi($id){
         $barang = barang::all();
         $transaksi_barang = transaksi_barang::where('id', $id)->first();
-        $transaksi_detail = transaksi_detail::all();
+        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi_barang->id)->get();
+
         
         return view('/pegawai/konfirmasi', compact('barang', 'transaksi_barang'  ,'transaksi_detail'));
     }
@@ -52,17 +53,18 @@ class DashboardPegawaiController extends Controller
     public function addTransaksi(Request $request){   
         //simpan ke database Transaksi
         $transaksi_barang = transaksi_barang::all();
-        $transaksi_detail = transaksi_detail::all();
+        $transaksi_detail = transaksi_detail::where('barang_id', $request->barang)->first();
         $barang = barang::all();
         $tanggal = Carbon::now()->toDateTimeString();
 
 
         $this->validate($request, [
-            'jumlah_beli' => 'required|numeric',
+            'jumlah_beli' => 'required|numeric|min:1',
         ],
         [
             'jumlah_beli.required' => 'Inputan Jumlah Beli Harus Di Isi !',
             'jumlah_beli.numeric' => 'Harus Pakai Nomer !',
+            'jumlah_beli.min' => 'Tidak Boleh Minus Atau Kosong !',
         ]);
         
         //Cek Validasi
@@ -77,9 +79,12 @@ class DashboardPegawaiController extends Controller
         }
 
         //Simpan Ke Database Transaksi_Detail
-        $pesanan_baru = transaksi_barang::where('status',0)->first();
         //Cek Transaksi Detail
+        
+        $pesanan_baru = transaksi_barang::where('status',0)->first();
+
         $cek_pesanan_detail = transaksi_detail::where('barang_id', $request->barang)->where('transaksi_id', $pesanan_baru->id)->first();
+
         if(empty($cek_pesanan_detail)){
             $transaksi_detail = new transaksi_detail;
             $transaksi_detail->barang_id      = $request->barang;
@@ -121,8 +126,28 @@ class DashboardPegawaiController extends Controller
         
     }
 
-    public function konfirmasi(Request $request)
+    public function konfirmasi(Request $request, $id)
     {
+        $this->validate($request, [
+            'nama_pembeli' => 'required|regex:/^[\pL\s\-]+$/u',
+            'uang_bayar' => 'required|min:1|numeric',
+        ],
+        [
+            'nama_pembeli.required' => 'Inputan Nama Pembeli Harus Di Isi !',
+            'nama_pembeli.regex' => 'Format Inputan Salah !',
+            'uang_bayar.required' => 'Inputan Uang Bayar Harus Di Isi !',
+            'uang_bayar.min' => 'Tidak Boleh Kosong atau Minus !',
+            'uang_bayar.numeric' => 'Harus Pakai Nomer !',
+        ]);
+
+        $transaksi_barang = transaksi_barang::where('id', $id)->first();
+        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi_barang->id)->get();
+
+        if($request->uang_bayar < $transaksi_barang->jumlah_harga){
+            alert()->error('Uang Bayar Tidak Boleh Kurang !', 'Error');
+            return redirect('pegawai/index');
+        }
+        
         $transaksi_barang = transaksi_barang::where('status',0)->first();
         $transaksi_id = $transaksi_barang->id;
         $transaksi_barang->status = 1;

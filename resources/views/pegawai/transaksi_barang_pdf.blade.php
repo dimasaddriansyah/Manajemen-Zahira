@@ -4,13 +4,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
-	<link rel="stylesheet" href="/buatprint/css/app.css">
+	<title>Print Struct</title>
+	<link rel="stylesheet" href="{/buatprint/css/app.css}">
 </head>
 <body>
 	<div class="col-12 mt-3">
 		<div class="card">
 			<h1>Zahira Shop</h1>
+			<h5>Jalan Raya Kertasmaya Indramayu</h5>
 			<table class="table">
 				<tr>
 					<td>No Transaksi</td>
@@ -29,15 +30,15 @@
 				</tr>
 			</table>
 			<h5>----------------------------------------------------------------------------------------------------</h5>
-			<div class="card-body">
-			  <table class="table table-bordered">
-				<thead class="thead-dark">
+			<div>
+			  <table>
+				<thead>
 						<tr>
-							<th>No|</th>
-							<th>Nama Barang	|</th>
-							<th>Jumlah Beli	|</th>
-							<th>Harga Satuan	|</th>
-							<th>Jumlah Harga	|</th>
+							<td>No|</td>
+							<td>Nama Barang	|</td>
+							<td>Jumlah Beli	|</td>
+							<td>Harga Satuan	|</td>
+							<td>Jumlah Harga	|</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -52,18 +53,17 @@
 						@endforeach
 						<tr>
 							<td colspan="3"></td>
-							<td><strong></strong> Total Harga</td>
-							<td>@currency($transaksi_barang->jumlah_harga)</td>
+							<td style="font-size: 14px;"><strong><p>Total Harga</p></strong></td>
+							<td style="font-size: 14px;"><strong>@currency($transaksi_barang->jumlah_harga)</strong></td>
+						<tr>
+							<td colspan="3"></td>
+							<td style="font-size: 14px;"><strong>Uang Bayar</strong></td>
+							<td style="font-size: 14px;"><strong>@currency($transaksi_barang->uang_bayar)</strong></td>
 						</tr>
 						<tr>
 							<td colspan="3"></td>
-							<td><strong></strong>Uang Bayar</td>
-							<td>@currency($transaksi_barang->uang_bayar)</td>
-						</tr>
-						<tr>
-							<td colspan="3"></td>
-							<td><strong></strong>Kembali</td>
-							<td>@currency($transaksi_barang->uang_bayar - $transaksi_barang->jumlah_harga)</td>
+							<td style="font-size: 14px;"><strong>Kembali</strong></td>
+							<td style="font-size: 14px;"><strong>@currency($transaksi_barang->uang_bayar - $transaksi_barang->jumlah_harga)</strong></td>
 						</tr>
 					</tbody>
 				</table>

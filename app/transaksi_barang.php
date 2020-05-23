@@ -10,7 +10,7 @@ class transaksi_barang extends Model
 
     public function transaksi_detail()
     {
-        return $this->hasMany('App\transaksi_detail', 'transaksi_id', 'id');
+        return $this->hasMany('App\transaksi_detail');
     }
 
     public function getCreatedAtAttribute()
