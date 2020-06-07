@@ -13,6 +13,11 @@ class transaksi_barang extends Model
         return $this->hasMany('App\transaksi_detail');
     }
 
+    public function pegawai()
+    {
+        return $this->belongsTo('App\pegawai', 'pegawai_id', 'id');
+    }
+
     public function getCreatedAtAttribute()
     {
         \Carbon\Carbon::setLocale('id');

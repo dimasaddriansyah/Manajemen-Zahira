@@ -19,7 +19,7 @@ class DashboardAdmin extends Controller
         $supplier = supplier::get();
         $barang = barang::get();
         $barang_masuk = barang_masuk::get();
-        $transaksi_barang = transaksi_barang::get();
+        $transaksi_barang = transaksi_barang::where('status', 1)->get();
         
         return view('/admin/index', compact('admin', 'pegawai', 'supplier', 'barang', 'barang_masuk', 'transaksi_barang'));
 

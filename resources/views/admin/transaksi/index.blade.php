@@ -180,12 +180,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                  <div class="col" align="right">
-                    <form action="search" method="GET">
-                      <input type="text" name="cari" placeholder="Cari Nama Pembeli" value="{{ old('cari') }}"
-                          class="btn btn-light">
-                      <input type="submit" value="Cari" class="btn btn-primary">
-                  </form>
+                  <div class="col">
+                     <div class="btn btn-success"><h5><i class="fas fa-dollar-sign"></i> Keuntungan : Rp. - </h5></div>
                   </div>
                 </div></div>
                 <div class="col-12 mt-3">

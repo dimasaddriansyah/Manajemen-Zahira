@@ -224,23 +224,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                       @endforeach
                                   </select>
                               </div>
-                                <div class="form-group">
-                                    <label>Stok</label>
-                                    <input type="number" class="form-control" name="stok" >
-                                </div>
+                              
                                 <div class="form-group">
                                     <label>Harga</label>
                                     <input type="number" class="form-control" id="num" name="harga"  onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" >Nominal : <span id="format"></span>
 
                                 </div>
-                                <div class="form-group">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control" required>
-                                        <option>-Pilih-</option>
-                                        <option value="Kritis">Kritis</option>
-                                        <option value="Ready">Ready</option>
-                                    </select>
-                                </div>
+                               
     
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
     

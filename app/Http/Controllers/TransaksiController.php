@@ -9,7 +9,7 @@ use App\Http\Controllers\PDF;
 class TransaksiController extends Controller
 {
     public function getTransaksi(){
-        $transaksi_barangs = transaksi_barang::all();
+        $transaksi_barangs = transaksi_barang::where('status', 1)->get();
 
         return view('/admin/transaksi/index', compact('transaksi_barangs'));
     }

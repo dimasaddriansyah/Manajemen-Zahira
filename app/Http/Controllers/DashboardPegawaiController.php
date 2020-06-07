@@ -68,10 +68,11 @@ class DashboardPegawaiController extends Controller
         ]);
         
         //Cek Validasi
-        $cek_pesanan = transaksi_barang::where('status',0)->first();
+        $cek_pesanan = transaksi_barang::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
         //Simpan Ke Database Transaksi
         if(empty($cek_pesanan)){
             $transaksi_barang = new transaksi_barang;
+            $transaksi_barang->pegawai_id    = Auth::user()->id;
             $transaksi_barang->status        = 0;
             $transaksi_barang->jumlah_harga  = 0;
             $transaksi_barang->tanggal  = $tanggal;
@@ -81,7 +82,7 @@ class DashboardPegawaiController extends Controller
         //Simpan Ke Database Transaksi_Detail
         //Cek Transaksi Detail
         
-        $pesanan_baru = transaksi_barang::where('status',0)->first();
+        $pesanan_baru = transaksi_barang::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
 
         $cek_pesanan_detail = transaksi_detail::where('barang_id', $request->barang)->where('transaksi_id', $pesanan_baru->id)->first();
 
@@ -103,7 +104,7 @@ class DashboardPegawaiController extends Controller
         }
 
         //jumlah TOTAL
-        $transaksi_barang = transaksi_barang::where('status',0)->first();
+        $transaksi_barang = transaksi_barang::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
         $transaksi_barang->jumlah_harga = $transaksi_barang->jumlah_harga+$transaksi_detail->barang->harga*$request->jumlah_beli;
         $transaksi_barang->update();
         

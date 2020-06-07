@@ -14,6 +14,11 @@
 			<h5>Jalan Raya Kertasmaya Indramayu</h5>
 			<table class="table">
 				<tr>
+					<td>Nama Kasir</td>
+					<td>:</td>
+					<td>{{ Auth::guard('pegawai')->user()->name }}</td>
+				</tr>
+				<tr>
 					<td>No Transaksi</td>
 					<td>:</td>
 					<td>{{ $transaksi_barang->id }}</td>
@@ -68,9 +73,9 @@
 					</tbody>
 				</table>
 			<h5>----------------------------------------------------------------------------------------------------</h5>
-			<h5>Terima Kasih :)</h5>
-			<h5>Kasir : Dimas Addriansyah Pamungkas</h5>
-
+			<table>
+				<h4>Terima Kasih :)</h4>
+			</table>
 			</div>
 		</div>
 	</div>

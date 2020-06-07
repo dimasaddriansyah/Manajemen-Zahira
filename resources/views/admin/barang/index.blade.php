@@ -217,7 +217,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <td>{{$barang->stok}}</td>
                                             <td>@currency($barang->harga)</td>
                                             <td>{{$barang->created_at}}</td>
-                                            <td>{{$barang->status}}</td>
+                                            <td>
+                                              <center>
+                                              @if($barang->stok <= 0)
+                                                <span class="badge badge-danger">Habis</span>
+                                              @elseif($barang->stok < 5)
+                                                <span class="badge badge-warning">Kritis</span>
+                                              @else
+                                                <span class="badge badge-success">Aman</span>
+                                              @endif
+                                              </center>
+                                            </td>
                                             <td>
                                                 <center>
                                                 <a href="{{url('/form-barang/'.$barang->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>

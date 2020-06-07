@@ -23,7 +23,7 @@ class BarangController extends Controller
     }
 
     public function getBarang(){
-        $data = barang::orderBy('name','ASC')->get();
+        $data = barang::orderBy('stok')->get();
         $kategori = kategori::All();
         return view('/admin/barang/index', compact('data', 'kategori'));
     }
@@ -42,7 +42,6 @@ class BarangController extends Controller
     public function addBarang(Request $request){
         $this->validate($request, [
             'name' => 'required|unique:barang|min:4|regex:/^[\pL\s\-]+$/u',
-            'stok' => 'required|numeric',
             'harga' => 'required',
         ],
         [
@@ -50,8 +49,6 @@ class BarangController extends Controller
             'name.min' => 'Minimal 4 Karakter !',
             'name.unique' => 'Nama Sudah Terdaftar !',
             'name.regex' => 'Inputan Nama Tidak Valid !',
-            'stok.required' => 'Harus Mengisi Bagian Stok !',
-            'stok.numeric' => 'Harus Pakai Nomer !',
             'harga.required' => 'Harus Mengisi Bagian Harga !',
         ]);
         //Simpan Ke Database Barang
@@ -61,17 +58,10 @@ class BarangController extends Controller
 
         $barang->name = ucwords($request->name);
         $barang->kategori_id = $request->kategori;
-        $barang->stok = $request->stok;
+        $barang->stok = 0;
         $barang->harga = $request->harga;
         $barang->tanggal = $tanggall;
-        $barang->status = $request->status;
         $barang->save();
-
-        /*Simpan Ke Database Laporan Barang Masuk
-        $lp_barang_masuk = new lp_barang_masuk;
-        $lp_barang_masuk->harga_jual = $barang->harga;
-        $lp_barang_masuk->save();
-        */
 
         alert()->success('Data Berhasil Di Tambah !', 'Success');
         return redirect('/admin/barang/index');
@@ -93,7 +83,6 @@ class BarangController extends Controller
     public function editBarang(Request $request,$id){
         $this->validate($request, [
             'name' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
-            'kategori_id' => 'required',
             'stok' => 'required|numeric',
             'harga' => 'required|numeric',
         ],
@@ -101,7 +90,6 @@ class BarangController extends Controller
             'name.required' => 'Harus Mengisi Bagian Nama !',
             'name.min' => 'Minimal 4 Karakter !',
             'name.regex' => 'Inputan Nama Tidak Valid !',
-            'kategori_id.required' => 'Harus Mengisi Bagian Kategori !',
             'stok.required' => 'Harus Mengisi Bagian Stok !',
             'stok.numeric' => 'Harus Pakai Nomer !',
             'harga.required' => 'Harus Mengisi Bagian Harga !',

@@ -17,6 +17,8 @@ class CreateTransaksiTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->foreign('pegawai_id')->references('id')->on('pegawai');
             $table->string('nama_pembeli')->nullable();
             $table->integer('jumlah_harga');
             $table->string('status');

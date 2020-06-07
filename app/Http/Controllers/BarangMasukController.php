@@ -13,7 +13,7 @@ class BarangMasukController extends Controller
 {
 
     public function getBarangMasuk(){
-        $data = barang_masuk::All();
+        $data = barang_masuk::orderBy('created_at', 'DESC')->get();
         $barang = barang::All();
         $supplier = supplier::All();
         return view('/admin/barang_masuk/index', compact('data', 'barang' , 'supplier'));
