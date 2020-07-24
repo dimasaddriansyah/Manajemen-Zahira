@@ -29,7 +29,7 @@ class transaksi_barang extends Model
     {
         \Carbon\Carbon::setLocale('id');
     return \Carbon\Carbon::parse($this->attributes['updated_at'])
-       ->translatedFormat();
+       ->translatedFormat('l, d F Y H:i');
     }
-    
+
 }

@@ -56,8 +56,7 @@ class DashboardPegawaiController extends Controller
         $transaksi_detail = transaksi_detail::where('barang_id', $request->barang)->first();
         $barang = barang::all();
         $tanggal = Carbon::now()->toDateTimeString();
-
-
+    
         $this->validate($request, [
             'jumlah_beli' => 'required|numeric|min:1',
         ],

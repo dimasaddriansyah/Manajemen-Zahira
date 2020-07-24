@@ -123,7 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <td>
                                                 <center>
                                                 <a href="{{url('/delete-transaksi/'.$transaksi_detail->id)}}" class="btn btn-xs btn-danger btn-flat" onclick="
-                                                  return confirm('Anda Yakin Akan Menghapus Data ?');"><i class="fa fa-trash"></i></a>
+                                                  return confirm('Anda Yakin Akan Menghapus Data Barang ?');"><i class="fa fa-trash"></i></a>
                                                 </center>
                                             </td>
                                         </tr>

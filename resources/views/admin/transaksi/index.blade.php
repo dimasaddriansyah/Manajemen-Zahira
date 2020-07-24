@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ asset('js/app.js') }}"></script>
 
 
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -181,7 +181,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="row">
               <div class="col-md-12">
                   <div class="col">
-                     <div class="btn btn-success"><h5><i class="fas fa-dollar-sign"></i> Keuntungan : Rp. - </h5></div>
+                    <?php
+                        $untung = \App\transaksi_barang::sum('jumlah_harga');
+                    ?>
+                     <div class="btn btn-success"><h5><i class="fas fa-dollar-sign"></i> Keuntungan : @currency($untung) </h5></div>
                   </div>
                 </div></div>
                 <div class="col-12 mt-3">
@@ -212,13 +215,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

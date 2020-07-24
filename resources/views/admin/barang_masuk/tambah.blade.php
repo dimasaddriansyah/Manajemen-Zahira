@@ -55,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -237,10 +237,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <label>Jumlah Barang</label>
                                     <input type="number" class="form-control" name="jumlah" required>
                                 </div>
-                    
-    
+
+
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
-    
+
                             </form>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

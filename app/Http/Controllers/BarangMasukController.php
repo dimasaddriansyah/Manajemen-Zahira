@@ -27,10 +27,6 @@ class BarangMasukController extends Controller
         return view('/admin/barang_masuk/tambah', compact('data', 'barang', 'supplier'));
     }
 
-    public function json(){
-        return Datatables::of(barang::all())->make(true);
-    }
-    
     public function search(Request $request)
     {
         $cari = $request->get('cari');
@@ -51,14 +47,14 @@ class BarangMasukController extends Controller
         $barang_masuk->save();
 
         $barang = barang::find($request->barang);
-        $stok_sementara = $barang->stok + $request->jumlah; 
+        $stok_sementara = $barang->stok + $request->jumlah;
         $barang->stok = $stok_sementara;
         $barang->update();
 
         alert()->success('Data Berhasil Di Tambah dan Stok Bertambah !', 'Success');
         return redirect('/admin/barang/index');
 
-        
+
     }
 
     public function formBarangMasuk($id){
@@ -76,7 +72,7 @@ class BarangMasukController extends Controller
                     'harga_beli'=> $request->harga_beli,
                     'jumlah_masuk'=>$request->jumlah,
                 ]);
-    
+
     alert()->success('Data Berhasil Di Update !', 'Success');
     return redirect('/admin/barang_masuk/index');
     }
@@ -89,7 +85,7 @@ class BarangMasukController extends Controller
         $barang->update();
 
         $barang_masuk->delete();
-    
+
         alert()->error('Data Terhapus !', 'Deleted');
         return redirect('/admin/barang_masuk/index');
     }

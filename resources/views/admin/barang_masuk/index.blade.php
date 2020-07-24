@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       return (((sign)?'':'-') + 'Rp. ' + num);
     }
 </script>
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -58,7 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -207,7 +207,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <input type="submit" value="Cari" class="btn btn-primary">
                   </form>
                   </div>
-                </div> 
+                </div>
               </div>
                 <div class="col-12 mt-3">
                     <div class="card">
@@ -241,21 +241,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                               </center>
                                           </td>
                                         </tr>
-        
+
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
