@@ -36,7 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
       num = num.substring(0,num.length-(4*i+3))+'.'+
       num.substring(num.length-(4*i+3));
-      return (((sign)?'':'-') + 'Rp' + num);
+      return (((sign)?'':'-') + 'Rp. ' + num);
     }
 </script>
 <!-- Menghitung Kembalian Otomatis -->
@@ -67,7 +67,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
           <!-- Notifications Dropdown Menu -->
-          
+
           <li class="nav-item">
           <li class="col-md-12">
               <a class="mr-3"><i class="fa fa-user-alt"></i> {{ Auth::guard('pegawai')->user()->name }}</a>
@@ -91,16 +91,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="card">
                     <div class="card-header" style="background-color: #008080;">
                             <h5 style="color: white">
-                                <i class="fa fa-info-circle"></i> 
-                                Detail Transaksi : No - <i>
-                                @if(!empty($transaksi_barang))
-                                    {{$transaksi_barang->id}}
+                                <i class="fa fa-info-circle"></i>
+                                Detail Transaksi : TR - <i>
+                                @if(!empty($transaksi))
+                                    {{$transaksi->id}}
                                 @endif
                             </i>
                             </h5>
                     </div>
                         <div class="card-body">
-                            @if(!empty($transaksi_barang))
+                            @if(!empty($transaksi))
                             <table class="table table-hover mt-2">
                                 <thead>
                                     <tr>
@@ -116,9 +116,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @foreach ($transaksi_detail as $no => $transaksi_detail)
                                         <tr>
                                             <td>{{++$no}}</td>
-                                            <td>{{$transaksi_detail->barang->name}}</td>
+                                            <td>{{$transaksi_detail->barang->nama_barang}}</td>
                                             <td>{{$transaksi_detail->jumlah_beli}} Pcs</td>
-                                            <td>@currency($transaksi_detail->barang->harga)</td>
+                                            <td>@currency($transaksi_detail->barang->harga_jual)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
                                             <td>
                                                 <center>
@@ -131,8 +131,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <tr>
                                         <td colspan="4" align="right"><strong>Total Harga : </strong></td>
                                         <td>
-                                            @if(!empty($transaksi_barang))
-                                            <strong>@currency($transaksi_barang->jumlah_harga)</strong>
+                                            @if(!empty($transaksi))
+                                            <strong>@currency($transaksi->jumlah_harga)</strong>
                                             @endif
                                         </td>
                                     </tr>
@@ -159,8 +159,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </ul>
                             </div>
                           @endif
-                          @if (!empty($transaksi_barang))
-                          <form action="{{ url('/add-konfirmasi')}}/{{ $transaksi_barang->id }}" id="form1" name="form1" method="post">
+                          @if (!empty($transaksi))
+                          <form action="{{ url('/add-konfirmasi')}}/{{ $transaksi->id }}" id="form1" name="form1" method="post">
                           @endif
                             @csrf
                                 <div class="form-group">
@@ -170,9 +170,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
                                 <div class="form-group">
                                     <label>Total Harga</label>
-                                        <input type="text" class="form-control" name="total_harga"  onfocus="startCalculate()" onblur="stopCalc()" 
-                                        @if (!empty($transaksi_barang))
-                                            value="@currency($transaksi_barang->jumlah_harga)" 
+                                        <input type="text" class="form-control" name="total_harga"  onfocus="startCalculate()" onblur="stopCalc()"
+                                        @if (!empty($transaksi))
+                                            value="@currency($transaksi->jumlah_harga)"
                                         @endif
                                         readonly>
                                 </div>
@@ -217,11 +217,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <label>Nama Barang</label>
                 <select name="barang" class="form-control">
                   @foreach($barang as $barang)
-                    <option value="{{$barang->id}}">{{$barang->name}} | Stok : {{ $barang->stok }}</option>
+                    <option value="{{$barang->id}}">{{$barang->nama_barang}} | Stok : {{ $barang->stok }}</option>
                   @endforeach
                 </select>
             </div>
-            
+
             <div class="form-group">
                 <label>Jumlah Beli</label>
                 <input type="number" class="form-control @error('jumlah_beli') is-invalid @enderror" name="jumlah_beli" value="{{old('jumlah_beli')}}">

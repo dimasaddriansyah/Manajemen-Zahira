@@ -19,25 +19,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
+  <link rel="stylesheet" href="{{asset('tampilan-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  <script>
-    function formatCurrency(num) {
-      num = num.toString().replace(/\$|\,/g,'');
-      if(isNaN(num))
-      num = "0";
-      sign = (num == (num = Math.abs(num)));
-      num = Math.floor(num*100+0.50000000001);
-      cents = num%100;
-      num = Math.floor(num/100).toString();
-      if(cents<10)
-      cents = "0" + cents;
-      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
-      num = num.substring(0,num.length-(4*i+3))+'.'+
-      num.substring(num.length-(4*i+3));
-      return (((sign)?'':'-') + 'Rp. ' + num);
-    }
-</script>
-  
+  <script src="{{ asset('js/app.js') }}"></script>
+
+
+
   @yield('style-ajalah')
 
 </head>
@@ -56,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -92,97 +79,82 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="{{ url('/admin/index') }}" class="nav-link active">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Dashboard
-              </p>
-            </a>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon nav-icon fas fa-scroll"></i>
-              <p>
-                Master Data
-                <i class="right fas fa-angle-left" ></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
+               <li class="nav-item">
+                <a href="{{ url('/admin/index') }}" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Dashboard
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon nav-icon fas fa-scroll"></i>
+                  <p>
+                    Master Data
+                    <i class="right fas fa-angle-left" ></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ url('/admin/pegawai/index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-user-tie"></i>
+                      <p>Akun Pegawai</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ url('/admin/supplier/index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-user"></i>
+                      <p>Data Supplier</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview ">
+                <a href="#" class="nav-link ">
+                  <i class="nav-icon nav-icon fas fa-scroll"></i>
+                  <p>
+                    Master Barang
+                    <i class="right fas fa-angle-left" ></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ url('/admin/barang/index') }}" class="nav-link ">
+                      <i class="nav-icon fas fa-cubes"></i>
+                      <p>Stok Barang</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ url('/admin/kategori/index') }}" class="nav-link ">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>Kategori Barang</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ url('/admin/barang_masuk/index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-arrow-circle-right"></i>
+                      <p>Barang Masuk</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/pegawai/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user-tie"></i>
-                  <p>Akun Pegawai</p>
+                <a href="{{ url('/admin/transaksi/index') }}" class="nav-link ">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                  <p>
+                    Laporan Transaksi
+                  </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/supplier/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user"></i>
-                  <p>Data Supplier</p>
+                <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
+                  <i class="nav-icon fas fa-chart-line"></i>
+                  <p>
+                    Laporan Keuangan
+                  </p>
                 </a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon nav-icon fas fa-scroll"></i>
-              <p>
-                Master Barang
-                <i class="right fas fa-angle-left" ></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url('/admin/barang/index') }}" class="nav-link ">
-                  <i class="nav-icon fas fa-cubes"></i>
-                  <p>Stok Barang</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/kategori/index') }}" class="nav-link ">
-                  <i class="nav-icon fas fa-list-ul"></i>
-                  <p>Kategori Barang</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/barang_masuk/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-arrow-circle-right"></i>
-                  <p>Barang Masuk</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon nav-icon fas fa-scroll"></i>
-              <p>
-                  Data Laporan
-                <i class="right fas fa-angle-left" ></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url('/admin/laporan_barang_masuk/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user-tie"></i>
-                  <p>Laporan Barang Masuk</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('/admin/laporan_barang_keluar/index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-user"></i>
-                  <p>Laporan Barang Keluar</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-line"></i>
-              <p>
-                Laporan Keuangan
-              </p>
-            </a>
-          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -209,57 +181,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <div class="row">
-                  <div class="col" align="right">
-                    <form action="search" method="GET">
-                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
-                          class="btn btn-light">
-                      <input type="submit" value="Cari" class="btn btn-primary">
-                  </form>
+                  <div class="col">
+                    <?php
+                        $pendapatan = \App\transaksi::sum('jumlah_harga');
+                    ?>
+                     <button class="btn btn-info align-content-center"><i class="fas fa-coins"></i> Pendapatan : @currency($pendapatan)</button>
+                     <button class="btn btn-success align-content-center ml-2"><i class="fas fa-coins"></i> Keuntungan : Rp. -</button>
                   </div>
-                </div> 
-              </div>
+                </div></div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
+                            <table id="example1" class="table table-bordered table-hover">
+                                <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Nama Supplier</th>
-                                        <th>Nama Barang</th>
-                                        <th>Harga Beli</th>
-                                        <th>Harga Jual</th>
-                                        <th>Jumlah Barang</th>
-                                        <th>Tanggal Masuk</th>
+                                        <th>Nomer Transaksi</th>
+                                        <th>Jumlah Beli</th>
+                                        <th>Jumlah Harga</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($lp_barang_masuk as $key => $lp_barang_masuk)
+                                    @foreach($keuangan as $key => $keuangan)
                                         <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$lp_barang_masuk->supplier->name}}</td>
-                                            <td>{{$lp_barang_masuk->barang->name}}</td>
-                                            <td>@currency($lp_barang_masuk->harga_beli)</td>
-                                            <td>@currency($lp_barang_masuk->barang->harga)</td>
-                                            <td>{{$lp_barang_masuk->jumlah_masuk}}</td>
-                                            <td>{{$lp_barang_masuk->tgl_masuk}}</td>
+                                            <td>TR - {{$keuangan->transaksi_id}}</td>
+                                            <td>{{$keuangan->jumlah_beli}} Pcs</td>
+                                            <td>@currency($keuangan->jumlah_harga)</td>
                                         </tr>
-        
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
-      </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -291,8 +251,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-
-
+<script src="{{asset('tampilan-admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script> @include('sweet::alert')
 @yield('script')
 </body>
 </html>

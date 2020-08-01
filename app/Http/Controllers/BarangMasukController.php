@@ -3,90 +3,146 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\barang_masuk;
-use App\supplier;
 use App\barang;
+use App\supplier;
+use App\kategori;
 use Carbon\Carbon;
 use SweetAlert;
 
 class BarangMasukController extends Controller
 {
+    public function getBarang(){
+        $data = barang::orderBy('stok')->get();
+        $kategori = kategori::All();
+        return view('/admin/barang/index', compact('data', 'kategori'));
+    }
 
     public function getBarangMasuk(){
-        $data = barang_masuk::orderBy('created_at', 'DESC')->get();
-        $barang = barang::All();
+        $data = barang::orderBy('created_at', 'DESC')->get();
         $supplier = supplier::All();
-        return view('/admin/barang_masuk/index', compact('data', 'barang' , 'supplier'));
+        return view('/admin/barang_masuk/index', compact('data', 'supplier'));
     }
 
-    public function tampilTambah(){
-        $data = barang_masuk::All();
-        $barang = barang::All();
+    public function tampilTambah2(){
+        $data = barang::All();
         $supplier = supplier::All();
-
-        return view('/admin/barang_masuk/tambah', compact('data', 'barang', 'supplier'));
+        $kategori = kategori::all();
+        return view('/admin/barang_masuk/tambah2', compact('data', 'supplier', 'kategori'));
     }
 
-    public function search(Request $request)
-    {
-        $cari = $request->get('cari');
-        $data = barang_masuk::where('name','LIKE',"%".$cari."%")->get();
-        return view('/admin/barang_masuk/index',compact('data'));
-    }
+    public function addBarangMasuk2(Request $request){
+        $this->validate($request, [
+            'nama_barang' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
+            'harga_beli' => 'required|min:1|integer',
+            'harga_jual' => 'required|min:1|integer',
+            'jumlah' => 'required|min:1|integer',
+        ],
+        [
+            'nama_barang.required' => 'Harus Mengisi Bagian Nama Barang !',
+            'nama_barang.min' => 'Minimal 4 Karakter !',
+            'nama_barang.regex' => 'Inputan Nama Tidak Valid !',
+            'harga_beli.required' => 'Harus Mengisi Bagian Harga Beli !',
+            'harga_beli.min' => 'Tidak Boleh 0 Atau Minus !',
+            'harga_jual.required' => 'Harus Mengisi Bagian Harga Jual !',
+            'harga_jual.min' => 'Tidak Boleh 0 Atau Minus !',
+            'jumlah.required' => 'Harus Mengisi Bagian Jumlah Barang !',
+            'jumlah.min' => 'Tidak Boleh 0 Atau Minus !',
+        ]);
 
-    public function addBarangMasuk(Request $request){
-        $barang_masuk = new barang_masuk();
+        $barang = new barang();
 
         $tanggal = Carbon::now();
 
-        $barang_masuk->barang_id = $request->barang;
-        $barang_masuk->supplier_id = $request->supplier;
-        $barang_masuk->harga_beli= $request->harga_beli;
-        $barang_masuk->jumlah_masuk = $request->jumlah;
-        $barang_masuk->tgl_masuk = $tanggal;
-        $barang_masuk->save();
-
-        $barang = barang::find($request->barang);
-        $stok_sementara = $barang->stok + $request->jumlah;
-        $barang->stok = $stok_sementara;
-        $barang->update();
+        $barang->nama_barang = ucwords($request->nama_barang);
+        $barang->supplier_id = $request->supplier;
+        $barang->kategori_id = $request->kategori;
+        $barang->harga_beli= $request->harga_beli;
+        $barang->harga_jual= $request->harga_jual;
+        $barang->jumlah_masuk = $request->jumlah;
+        $barang->tgl_masuk = $tanggal;
+        $barang->stok = $request->jumlah;
+        if($barang->stok <= 0){
+            $barang->status = 1;
+        }elseif($barang->stok < 5){
+            $barang->status = 2;
+        }else{
+            $barang->status = 3;
+        }
+        $barang->save();
 
         alert()->success('Data Berhasil Di Tambah dan Stok Bertambah !', 'Success');
         return redirect('/admin/barang/index');
-
-
     }
 
     public function formBarangMasuk($id){
-        $barang_masuk = barang_masuk::where('id', $id)->first();
-        $barang = barang::All();
+        $barang = barang::where('id', $id)->first();
         $supplier = supplier::All();
 
-        return view('/admin/barang_masuk/edit', compact('barang_masuk', 'barang', 'supplier'));
+        return view('/admin/barang_masuk/edit', compact('barang', 'supplier'));
     }
     public function editBarangMasuk(Request $request,$id){
-        barang_masuk::where('id', $id)
+        $this->validate($request, [
+            'harga_beli' => 'required|min:1|integer',
+            'harga_jual' => 'required|min:1|integer',
+        ],
+        [
+            'harga_beli.required' => 'Harus Mengisi Bagian Harga Beli !',
+            'harga_beli.min' => 'Tidak Boleh 0 Atau Minus !',
+            'harga_jual.required' => 'Harus Mengisi Bagian Harga Jual !',
+            'harga_jual.min' => 'Tidak Boleh 0 Atau Minus !',
+        ]);
+
+        $update = Carbon::now();
+        barang::where('id', $id)
                 ->update([
-                    'supplier_id'=>$request->supplier,
-                    'barang_id'=>$request->barang,
                     'harga_beli'=> $request->harga_beli,
-                    'jumlah_masuk'=>$request->jumlah,
+                    'harga_jual'=>$request->harga_jual,
+                    'updated_at'=>$update,
                 ]);
 
     alert()->success('Data Berhasil Di Update !', 'Success');
     return redirect('/admin/barang_masuk/index');
     }
 
-    public function deleteBarangMasuk(Request $request,$id){
-        $barang_masuk = barang_masuk::where('id', $id)->first();
-        $barang = barang::where('id', $barang_masuk->barang->id)->first();
+    public function tampilAddStok($id){
+        $barang = barang::where('id', $id)->first();
+        $supplier = supplier::All();
 
-        $barang->stok = $barang_masuk->barang->stok-$barang_masuk->jumlah_masuk;
+        return view('/admin/barang_masuk/tambah_stok', compact('barang', 'supplier'));
+    }
+
+    public function addStok(Request $request, $id){
+        $this->validate($request, [
+            'stok' => 'required|min:1|integer',
+        ],
+        [
+            'stok.required' => 'Harus Mengisi Bagian Harga Stok !',
+            'stok.min' => 'Tidak Boleh 0 Atau Minus !',
+        ]);
+        barang::where('id', $id)
+                ->update([
+                    'stok'=> $request->stok,
+                ]);
+
+        $barang = barang::where('id',$id)->first();
+        $barang->jumlah_masuk = $barang->stok;
+        if($barang->stok <= 0){
+            $barang->status = 1;
+        }elseif($barang->stok < 5){
+            $barang->status = 2;
+        }else{
+            $barang->status = 3;
+        }
         $barang->update();
 
-        $barang_masuk->delete();
+    alert()->success('Data Berhasil Di Update !', 'Success');
+    return redirect('/admin/barang/index');
+    }
+
+    public function deleteBarang($id){
+        barang::where('id', $id)->delete();
 
         alert()->error('Data Terhapus !', 'Deleted');
-        return redirect('/admin/barang_masuk/index');
+        return redirect('/admin/barang/index');
     }
 }

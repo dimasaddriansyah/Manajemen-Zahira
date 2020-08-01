@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -144,7 +144,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -202,35 +202,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <label>Nama Supplier</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" style="text-transform: capitalize;" value="{{old('name')}}">
                                     @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
-
                                 </div>
                                 <div class="form-group">
                                   <label>Alamat</label>
                                   <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" style="text-transform: capitalize;" value="{{old('alamat')}}">
                                   @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
-
                                 </div>
                                 <div class="form-group">
                                     <label>No Hp</label>
                                     <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{old('no_hp')}}">
                                     @if ($errors->has('no_hp')) <span class="invalid-feedback"><strong>{{ $errors->first('no_hp') }}</strong></span> @endif
-
                                 </div>
-    
+
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
-    
+
                             </form>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

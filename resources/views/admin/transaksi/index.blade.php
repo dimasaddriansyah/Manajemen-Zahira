@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
+  <link rel="stylesheet" href="{{asset('tampilan-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
   <script src="{{ asset('js/app.js') }}"></script>
 
@@ -147,7 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
                   <i class="nav-icon fas fa-chart-line"></i>
                   <p>
                     Laporan Keuangan
@@ -181,33 +182,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="row">
               <div class="col-md-12">
                   <div class="col">
-                    <?php
-                        $untung = \App\transaksi_barang::sum('jumlah_harga');
-                    ?>
-                     <div class="btn btn-success"><h5><i class="fas fa-dollar-sign"></i> Keuntungan : @currency($untung) </h5></div>
-                  </div>
+                    <button class="btn btn-success">Laporan Transaksi</button>
+                </div>
                 </div></div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-dark">
+                            <table id="example1" class="table table-bordered table-hover">
+                                <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>Nomer Transaksi</th>
                                         <th>Nama Pembeli</th>
                                         <th>Total Harga</th>
                                         <th>Uang Bayar</th>
                                         <th>Tanggal Transaksi</th>
+                                        <th>Kasir / Pegawai</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($transaksi_barangs as $key => $transaksi_barang)
+                                    @foreach($transaksi as $key => $transaksi)
                                         <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$transaksi_barang->nama_pembeli}}</td>
-                                            <td>@currency($transaksi_barang->jumlah_harga)</td>
-                                            <td>@currency($transaksi_barang->uang_bayar)</td>
-                                            <td>{{$transaksi_barang->created_at}}</td>
+                                            <td>TR - {{$transaksi->id}}</td>
+                                            <td>{{$transaksi->nama_pembeli}}</td>
+                                            <td>@currency($transaksi->jumlah_harga)</td>
+                                            <td>@currency($transaksi->uang_bayar)</td>
+                                            <td>{{$transaksi->created_at}}</td>
+                                            <td>{{$transaksi->pegawai->name}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -253,7 +253,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-  @include('sweet::alert')
+<script src="{{asset('tampilan-admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script> @include('sweet::alert')
 @yield('script')
 </body>
 </html>

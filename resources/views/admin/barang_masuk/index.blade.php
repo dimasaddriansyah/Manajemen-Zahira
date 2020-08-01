@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
+  <link rel="stylesheet" href="{{asset('tampilan-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
   <script src="{{ asset('js/app.js') }}"></script>
 
@@ -163,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -198,27 +199,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="col-md-12">
                 <div class="row">
                   <div class="col">
-                    <a href="{{url('/admin/barang_masuk/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH BARANG MASUK</i></a>
-                  </div>
-                  <div class="col" align="right">
-                    <form action="search" method="GET">
-                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
-                          class="btn btn-light">
-                      <input type="submit" value="Cari" class="btn btn-primary">
-                  </form>
+                    <a href="{{url('/admin/barang_masuk/tambah2')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Barang Masuk</a>
                   </div>
                 </div>
               </div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
+                            <table id="example1" class="table table-bordered">
+                                <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Supplier</th>
                                         <th>Nama Barang</th>
+                                        <th>Kategori Barang</th>
                                         <th>Harga Beli</th>
+                                        <th>Harga Jual</th>
                                         <th>Jumlah Barang</th>
                                         <th>Tanggal Masuk</th>
                                         <th><center>Option</center> </th>
@@ -229,16 +225,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$barang_masuk->supplier->name}}</td>
-                                            <td>{{$barang_masuk->barang->name}}</td>
-                                            <td>@currency($barang_masuk->harga_beli)</td>
-                                            <td>{{$barang_masuk->jumlah_masuk}}</td>
-                                            <td>{{$barang_masuk->created_at}}</td>
+                                            <td>{{$barang_masuk->nama_barang}}</td>
+                                            <td>{{$barang_masuk->kategori->name}}</td>
+                                            <th>@currency($barang_masuk->harga_beli)</th>
+                                            <th>@currency($barang_masuk->harga_jual)</th>
+                                            <th><center>{{$barang_masuk->jumlah_masuk}} Pcs</center></th>
+                                            <td>{{$barang_masuk->tgl_masuk}}</td>
                                             <td>
-                                              <center>
-                                              <a href="{{url('/form-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
-                                              <a href="{{url('/delete-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-xs btn-danger btn-flat" onclick="
-                                                return confirm('Anda Yakin Akan Menghapus Data ?');"><i class="fa fa-trash"></i></a>
-                                              </center>
+                                                    <center>
+                                                        <a href="{{url('/form-barang_masuk/'.$barang_masuk->id)}}" class="btn btn-sm btn-success mb-1"><i class="fas fa-pencil-alt"></i> Ubah Harga</a>
+                                                        <a href="{{url('/form-add-stok/'.$barang_masuk->id)}}" class="btn btn-sm btn-info mb-1"><i class="fa fa-plus"></i> Tambah Stok</a>
+                                                    </center>
                                           </td>
                                         </tr>
 
@@ -277,9 +274,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
   </footer>
 </div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
 <script src="{{asset('/tampilan-admin/plugins/jquery/jquery.min.js')}}"></script>
@@ -287,7 +281,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-@include('sweet::alert')
+<script src="{{asset('tampilan-admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>@include('sweet::alert')
 
 
 @yield('script')

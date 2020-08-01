@@ -11,20 +11,12 @@ class KategoriController extends Controller
     public function getKategori(){
         $kategori = kategori::All();
         return view('/admin/kategori/index', compact('kategori'));
-        // echo $kategori;
     }
 
     public function tampilTambah(){
         $kategori = kategori::All();
 
         return view('/admin/kategori/tambah', compact('kategori'));
-    }
-
-    public function search(Request $request)
-    {
-        $cari = $request->get('cari');
-        $data = kategori::where('tgl','LIKE','%'.$cari.'%')->get();
-        return view('/admin/kategori/index',compact('data'));
     }
 
     public function addKategori(Request $request){
@@ -58,13 +50,14 @@ class KategoriController extends Controller
             'name.required' => 'Harus Mengisi Bagian Nama !',
             'name.min' => 'Minimal 4 Karakter !',
             'name.regex' => 'Inputan Nama Tidak Valid !',
+            'name.unique' => 'Nama Kategori Sudah Ada !',
         ]);
-        
+
         kategori::where('id', $id)
                 ->update([
                     'name'=>ucwords($request->name),
                 ]);
-    
+
     alert()->success('Data Berhasil Di Update !', 'Success');
     return redirect('/admin/kategori/index');
     }

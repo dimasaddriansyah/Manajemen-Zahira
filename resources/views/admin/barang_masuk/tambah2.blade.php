@@ -37,8 +37,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       return (((sign)?'':'-') + 'Rp. ' + num);
     }
 </script>
-  @yield('style-ajalah')
-
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -160,7 +158,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -193,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <a href="{{ url('/admin/barang_masuk/index')}}" class="btn btn-primary"><i class="fas fa-arrow-circle-left">  KEMBALI</i></a>
+              <a href="{{ url('/admin/barang_masuk/index')}}" class="btn btn-primary"><i class="fas fa-arrow-circle-left"></i> Kembali</a>
             </div>
               <div class="col-12 mt-3">
                     <div class="card">
@@ -202,25 +200,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <div class="col-12">
                         <div class="card-body">
-                          @if ($errors->any())
-                            <div class="alert alert-danger" align="left">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                          @endif
-                            <form action="{{ url('/add-barang_masuk') }}" method="post">
+                            <form action="{{ url('/add-barang_masuk2') }}" method="post">
                                 @csrf
-                                <div class="form-group">
-                                    <label>Nama Barang</label>
-                                    <select name="barang" class="form-control">
-                                      @foreach($barang as $barang)
-                                        <option value="{{$barang->id}}">{{$barang->name}}</option>
-                                      @endforeach
-                                    </select>
-                                </div>
                                 <div class="form-group">
                                   <label>Nama Supplier</label>
                                   <select name="supplier" class="form-control">
@@ -230,17 +211,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   </select>
                               </div>
                               <div class="form-group">
+                                <label>Nama Barang</label>
+                                <input type="text" class="form-control @error('nama_barang') is-invalid @enderror" name="nama_barang" value="{{ old('nama_barang') }}" style="text-transform: capitalize;">
+                                @if ($errors->has('nama_barang')) <span class="invalid-feedback"><strong>{{ $errors->first('nama_barang') }}</strong></span> @endif
+                            </div>
+                            <div class="form-group">
+                                <label>Kategori Barang</label>
+                                <select name="kategori" class="form-control">
+                                  @foreach($kategori as $kategori)
+                                      <option value="{{$kategori->id}}">{{$kategori->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                              <div class="form-group">
                                 <label>Harga Beli</label>
-                                <input type="number" class="form-control" id="num" name="harga_beli" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
-                               </div>
-                                <div class="form-group">
-                                    <label>Jumlah Barang</label>
-                                    <input type="number" class="form-control" name="jumlah" required>
-                                </div>
-
-
+                                <input type="number" class="form-control @error('harga_beli') is-invalid @enderror" id="num" name="harga_beli" value="{{ old('harga_beli') }}" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);">Nominal : <span id="format"></span>
+                                @if ($errors->has('harga_beli')) <span class="invalid-feedback"><strong>{{ $errors->first('harga_beli') }}</strong></span> @endif
+                            </div>
+                               <div class="form-group">
+                                <label>Harga Jual</label>
+                                <input type="number" class="form-control @error('harga_jual') is-invalid @enderror" id="num" name="harga_jual" value="{{ old('harga_jual') }}" onkeyup="document.getElementById('format2').innerHTML = formatCurrency(this.value);">Nominal : <span id="format2"></span>
+                                @if ($errors->has('harga_jual')) <span class="invalid-feedback"><strong>{{ $errors->first('harga_jual') }}</strong></span> @endif
+                            </div>
+                            <div class="form-group">
+                                <label>Jumlah Barang</label>
+                                <input type="number" class="form-control @error('jumlah') is-invalid @enderror" name="jumlah" value="{{ old('jumlah') }}">
+                                @if ($errors->has('jumlah')) <span class="invalid-feedback"><strong>{{ $errors->first('jumlah') }}</strong></span> @endif
+                            </div>
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
-
                             </form>
                         </div>
                     </div>

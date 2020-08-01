@@ -19,11 +19,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
+  <link rel="stylesheet" href="{{asset('tampilan-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
   <script src="{{ asset('js/app.js') }}"></script>
 
 
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -42,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -147,7 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -183,22 +184,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="col-md-12">
                 <div class="row">
                   <div class="col">
-                    <a href="{{url('/admin/supplier/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH DATA</i></a>
-                  </div>
-                  <div class="col" align="right">
-                    <form action="search" method="GET">
-                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
-                          class="btn btn-light">
-                      <input type="submit" value="Cari" class="btn btn-primary">
-                  </form>
-                  </div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lihat_barang">
+                        <i class="fas fa-plus"></i> Tambah Data
+                    </button>
+                   </div>
                 </div>
               </div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
-                          <table class="table table-bordered">
-                            <thead class="thead-dark">
+                          <table id="example1" class="table table-bordered">
+                            <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Supplier</th>
@@ -222,24 +218,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </center>
                                             </td>
                                         </tr>
-        
+
                                     @endforeach
                                 </tbody>
                             </table>
-                            <br>
-                            Jumlah Data Semua : {{ $suppliers->total() }}
-                            {{ $suppliers->links() }}
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -264,6 +257,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+<!-- Modal -->
+<div class="modal fade" id="lihat_barang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Data Supplier</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{{url('/add-supplier')}}" method="post">
+            @csrf
+            <div class="form-group">
+                <label>Nama Supplier</label>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{old('name')}}">
+                @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
+            </div>
+        <div class="form-group">
+            <label>Alamat</label>
+            <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" style="text-transform: capitalize;" value="{{old('alamat')}}">
+            @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
+          </div>
+          <div class="form-group">
+              <label>No Hp</label>
+              <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{old('no_hp')}}">
+              @if ($errors->has('no_hp')) <span class="invalid-feedback"><strong>{{ $errors->first('no_hp') }}</strong></span> @endif
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Tambah</button>
+        </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- jQuery -->
 <script src="{{asset('/tampilan-admin/plugins/jquery/jquery.min.js')}}"></script>
@@ -271,7 +301,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-@include('sweet::alert')
+<script src="{{asset('tampilan-admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>@include('sweet::alert')
 @yield('script')
 </body>
 </html>

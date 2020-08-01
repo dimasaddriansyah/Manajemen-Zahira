@@ -20,11 +20,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <link rel="stylesheet" href="{{asset('tampilan-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="{{ asset('js/app.js') }}"></script>
 
-  
-  
+
+
   @yield('style-ajalah')
 
 </head>
@@ -43,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -148,7 +149,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -184,21 +185,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="col-md-12">
                 <div class="row">
                   <div class="col">
-                    <a href="{{url('/admin/pegawai/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH AKUN</i></a>
-                  </div>
-                  <div class="col" align="right">
-                    <form action="/pegawai/cari" method="GET">
-                      <input type="text" name="cari" class="btn btn-light" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}">
-                      <input type="submit" value="Cari" class="btn btn-primary">
-                  </form>
+                    <a href="{{url('/admin/pegawai/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5"> </i> Tambah Akun</a>
                   </div>
                 </div>
             </div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
-                          <table class="table table-bordered">
-                            <thead class="thead-dark">
+                          <table id="example1" class="table table-bordered">
+                            <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Pegawai</th>
@@ -227,22 +222,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @endforeach
                                 </tbody>
                             </table>
-                            <br>
-                            <!-- Jumlah Data Per Halaman : {{ $pegawais->perPage() }} <br> -->
-                            Jumlah Data Semua : {{ $pegawais->total() }}
-                            {{ $pegawais->links() }}
-                           
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -274,7 +264,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-@include('sweet::alert')
+<script src="{{asset('tampilan-admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>@include('sweet::alert')
 
 
 @yield('script')

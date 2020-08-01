@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\admin;
 use App\pegawai;
 use App\supplier;
 use App\barang;
-use App\barang_masuk;
-use App\transaksi_barang;
+use App\transaksi;
 
 class DashboardAdmin extends Controller
 {
@@ -18,10 +16,9 @@ class DashboardAdmin extends Controller
         $pegawai = pegawai::get();
         $supplier = supplier::get();
         $barang = barang::get();
-        $barang_masuk = barang_masuk::get();
-        $transaksi_barang = transaksi_barang::where('status', 1)->get();
-        
-        return view('/admin/index', compact('admin', 'pegawai', 'supplier', 'barang', 'barang_masuk', 'transaksi_barang'));
+        $transaksi = transaksi::where('status', 1)->get();
+
+        return view('/admin/index', compact('admin', 'pegawai', 'supplier', 'barang', 'transaksi'));
 
     }
 }

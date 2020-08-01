@@ -20,6 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <link rel="stylesheet" href="{{asset('tampilan-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <script src="{{ asset('js/app.js') }}"></script>
 
 
@@ -147,7 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -179,32 +180,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col">
-                    <a href="{{url('/admin/barang/tambah')}}" class="btn btn-primary"><i class="fa fa-plus p-r-5">  TAMBAH BARANG</i></a>
+                <div class="col-md-12">
+                    <?php
+                        $notif = \App\barang::where('status');
+
+                        if(!empty($notif)){
+                            $k = \App\barang::where('status',2)->count();
+
+                        }
+                        if(!empty($notif)) {
+                            $h = \App\barang::where('nama_barang')->where('status',1)->count();
+                        }
+                    ?>
+                    <a class="btn btn-primary" style="color: white"><i class="fas fa-cubes"></i> Stok Barang</a>
+                    @if (!empty($h))
+                        <a class="btn btn-danger" style="color: white"><i class="fas fa-ban"></i> Stok Habis <b>{{ $h }}</b></a>
+                    @endif
+                    @if (!empty($k))
+                        <a class="btn btn-warning" style="color: white"><i class="fas fa-exclamation-triangle"></i> Stok Kritis <b>{{ $k }}</b></a>
+                    @endif
                   </div>
-                  <div class="col" align="right">
-                    <form action="search" method="GET">
-                      <input type="text" name="cari" placeholder="Cari Nama Pegawai" value="{{ old('cari') }}"
-                          class="btn btn-light">
-                      <input type="submit" value="Cari" class="btn btn-primary">
-                  </form>
-                  </div>
-                </div></div>
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
+                            <table id="example1" class="table table-bordered">
+                                <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Barang</th>
                                         <th>Kategori Barang</th>
-                                        <th>Stok</th>
-                                        <th>Harga Jual</th>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
+                                        <th><center>Stok</center></th>
+                                        <th><center>Status</center></th>
+                                        <th><center>Update</center></th>
                                         <th><center>Option</center> </th>
                                     </tr>
                                 </thead>
@@ -212,15 +219,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @foreach($data as $key => $barang)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$barang->name}}</td>
+                                            <td>{{$barang->nama_barang}}</td>
                                             <td>{{$barang->kategori->name}}</td>
-                                            <td>{{$barang->stok}}</td>
-                                            <td>@currency($barang->harga)</td>
-                                            <td>{{$barang->created_at}}</td>
+                                            <th><center>{{$barang->stok}}</center></th>
                                             <td>
                                               <center>
                                               @if($barang->stok <= 0)
-                                                <span class="badge badge-danger">Habis</span>
+                                                <span class="badge badge-danger">Habis</span><br>
+                                                <span class="badge btn-outline-danger"><i class="fas fa-pencil-alt"></i> Tambah Stok Sekarang</span>
                                               @elseif($barang->stok < 5)
                                                 <span class="badge badge-warning">Kritis</span>
                                               @else
@@ -228,9 +234,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                               @endif
                                               </center>
                                             </td>
+                                            <td align="center"><b>{{$barang->updated_at}}</b></td>
                                             <td>
                                                 <center>
-                                                <a href="{{url('/form-barang/'.$barang->id)}}" class="btn btn-xs btn-warning btn-flat"><i class="fa fa-edit"></i></a>
                                                 <a href="{{url('/delete-barang/'.$barang->id)}}" class="btn btn-xs btn-danger btn-flat" onclick="
                                                   return confirm('Anda Yakin Akan Menghapus Data ?');"><i class="fa fa-trash"></i></a>
                                                 </center>
@@ -283,6 +289,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('tampilan-admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
 @include('sweet::alert')
 @yield('script')
 </body>

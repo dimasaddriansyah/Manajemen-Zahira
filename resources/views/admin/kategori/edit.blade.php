@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -144,7 +144,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -185,38 +185,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h5>EDIT KATEGORI BARANG {{ $kategori->name }}</h5>
                         </div>
                         <div class="card-body">
-                          @if ($errors->any())
-                            <div class="alert alert-danger" align="left">
-                                <ul>
-                                  <p>Kesalhan !</p>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                          @endif
                             <form action="{{ url('/edit-kategori/'. $kategori->id) }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Kategori Barang</label>
-                                    <input type="text" class="form-control" name="name" value="{{ $kategori->name }}" required>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name',$kategori->name) }}" style="text-transform: capitalize;">
+                                    @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
                                 </div>
-                    
-    
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">UPDATE</button>
-    
                             </form>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

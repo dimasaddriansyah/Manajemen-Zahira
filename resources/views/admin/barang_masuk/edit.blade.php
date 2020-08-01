@@ -55,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -154,7 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -187,74 +187,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <a href="{{url('/admin/barang_masuk/index')}}" class="btn btn-round btn-primary"><i class="fas fa-arrow-circle-left"> KEMBALI</i></a>
-              </div>
-                <div class="col-12">
+                <div class="row">
+                    <div class="col">
+                      <a href="{{url('/admin/barang_masuk/index')}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Kembali</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-header">
-                            <h5>EDIT DATA BARANG MASUK {{$barang_masuk->name}}</h5>
+                            <h5>Edit Data Barang {{$barang->nama_barang}}</h5>
                         </div>
                         <div class="card-body">
-                          @if ($errors->any())
-                            <div class="alert alert-danger" align="left">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                          @endif
-                            <form action="{{ url('/edit-barang_masuk/'. $barang_masuk->id) }}" method="post">
+                            <form action="{{ url('/edit-barang_masuk/'. $barang->id) }}" method="post">
                                 @csrf
-                                <div class="form-group">
-                                  <label>Nama Barang</label>
-                                  <select name="barang" class="form-control">
-                                    @foreach ($barang as $barang)
-                                      <option value="{{ $barang->id }}"
-                                        @if ($barang->id === $barang_masuk->barang_id )
-                                            selected
-                                        @endif
-                                        >{{ $barang->name }}
-                                        </option>       
-                                    @endforeach
-                                  </select>
-                              </div>
-                              <div class="form-group">
-                                <label>Nama Supplier</label>
-                                <select name="supplier" class="form-control" required>
-                                  @foreach ($supplier as $supplier)
-                                      <option value="{{ $supplier->id }}"
-                                        @if ($supplier->id === $barang_masuk->supplier_id )
-                                            selected
-                                        @endif
-                                        >{{ $supplier->name }}
-                                        </option>       
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Harga Beli Sebelumnya</label>
+                                        <input type="text" class="form-control" name="harga_beli" value="@currency($barang->harga_beli)" readonly>
+                                       </div>
+                                       <div class="form-group" readonly>
+                                        <label>Harga Jual Sebelumnya</label>
+                                        <input type="text" class="form-control" name="harga_jual" value="@currency($barang->harga_jual)" readonly>
+                                       </div>
+                                 </div>
+                                 <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Harga Beli Sekarang</label>
+                                        <input type="number" class="form-control @error('harga_beli') is-invalid @enderror" name="harga_beli" id="num" value="{{ old('harga_beli') }}" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);">Nominal : <span id="format"></span>
+                                        @if ($errors->has('harga_beli')) <span class="invalid-feedback"><strong>{{ $errors->first('harga_beli') }}</strong></span> @endif
+                                       </div>
+                                       <div class="form-group">
+                                        <label>Harga Jual Sekarang</label>
+                                        <input type="number" class="form-control @error('harga_jual') is-invalid @enderror" name="harga_jual" id="num" value="{{ old('harga_jual') }}" onkeyup="document.getElementById('format2').innerHTML = formatCurrency(this.value);">Nominal : <span id="format2"></span>
+                                        @if ($errors->has('harga_jual')) <span class="invalid-feedback"><strong>{{ $errors->first('harga_jual') }}</strong></span> @endif
+                                       </div>
+                                 </div>
                              </div>
-                             <div class="form-group">
-                              <label>Harga Beli</label>
-                              <input type="number" class="row-cols-1 form-control" id="num" name="harga_beli" value="{{$barang->harga_beli}}" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);" required>Nominal : <span id="format"></span>
-                             </div>
-                              <div class="form-group">
-                                  <label>Jumlah Barang</label>
-                                  <input type="number" class="form-control" name="jumlah" value={{ $barang_masuk->jumlah_masuk}} required>
-                              </div>
-                              
-                                <button class="btn btn-primary btn-flat btn-block btn-sm">Add data</button>
-    
+                             <button class="btn btn-primary btn-block">Simpan</button>
                             </form>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

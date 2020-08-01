@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
 use App\pegawai;
 use Illuminate\Http\Request;
 use SweetAlert;
@@ -13,19 +12,12 @@ class PegawaiController extends Controller
     public function tampilTambah(){
 
         return view('/admin/pegawai/tambah');
-    } 
-
-    public function getPegawai(){
-        $pegawais = pegawai::paginate(5);
-
-        return view('/admin/pegawai/index', compact('pegawais'));
     }
 
-    public function cari(Request $request)
-    {
-        $cari = $request->cari;
-        $pegawais = pegawai::where('name','LIKE',"%".$cari."%")->paginate(5);
-        return view('/admin/pegawai/index',compact('pegawais'));
+    public function getPegawai(){
+        $pegawais = pegawai::all();
+
+        return view('/admin/pegawai/index', compact('pegawais'));
     }
 
     public function addPegawai(Request $request){
@@ -64,8 +56,6 @@ class PegawaiController extends Controller
 
         alert()->success('Data Berhasil Di Simpan','Success');
         return redirect('/admin/pegawai/index');
-
-        
     }
 
     public function deletePegawai($id){

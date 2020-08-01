@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -144,13 +144,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-chart-line"></i>
-                <p>
-                  Laporan Keuangan
-                </p>
-              </a>
-            </li>
+                <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
+                  <i class="nav-icon fas fa-chart-line"></i>
+                  <p>
+                    Laporan Keuangan
+                  </p>
+                </a>
+              </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -185,54 +185,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h5>EDIT AKUN PEGAWAI <b style="color: blue">{{ $pegawai->name }}</b></h5>
                         </div>
                         <div class="card-body">
-                          @if ($errors->any())
-                            <div class="alert alert-danger" align="left">
-                                <ul>
-                                    <p>Terjadi Kesalahan !</p>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                          @endif
                             <form action="{{ url('/edit-pegawai/'. $pegawai->id) }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                   <label>Nama Pegawai</label>
-                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $pegawai->name }}" style="text-transform: capitalize;">
+                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name',$pegawai->name) }}" style="text-transform: capitalize;">
                                   @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
                               </div>
                               <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $pegawai->email }}" >
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email',$pegawai->email) }}" >
                                 @if ($errors->has('email')) <span class="invalid-feedback"><strong>{{ $errors->first('email') }}</strong></span> @endif
                               </div>
                               <div class="form-group">
                                   <label>Alamat</label>
-                                  <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ $pegawai->alamat }}" >
+                                  <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat',$pegawai->alamat) }}" >
                                   @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
                                </div>
                               <div class="form-group">
                                   <label>No Hp</label>
-                                  <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $pegawai->no_hp }}" >
+                                  <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('no_hp',$pegawai->no_hp) }}" >
                                   @if ($errors->has('no_hp')) <span class="invalid-feedback"><strong>{{ $errors->first('no_hp') }}</strong></span> @endif
                                </div>
-                    
-    
+
+
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">UPDATE</button>
-    
+
                             </form>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

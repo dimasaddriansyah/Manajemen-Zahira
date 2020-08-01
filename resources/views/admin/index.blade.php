@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
   <script src="{{ asset('js/app.js') }}"></script>
 
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -41,7 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -179,7 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="row">
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-grey">
+        <div class="small-box bg-blue">
           <div class="inner">
           <h3>{{ $pegawai->count() }}</h3>
 
@@ -196,7 +196,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-blue">
+        <div class="small-box bg-purple">
           <div class="inner">
             <h3>{{ $supplier->count() }}</h3>
 
@@ -217,7 +217,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="inner">
           <h3>{{ $barang->count()}}</h3>
 
-            <p>Data Stok Barang</p>
+            <p>Data Barang</p>
           </div>
           <div class="icon">
             <i class="fa fa-cubes"></i>
@@ -230,14 +230,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-purple">
+        <div class="small-box bg-orange">
           <div class="inner">
-          <h3>{{ $barang_masuk->count()}}</h3>
+          <h3>{{ $transaksi->count()}}</h3>
 
-            <p>Data Barang Masuk</p>
+            <p>Laporan Transaksi</p>
           </div>
           <div class="icon">
-            <i class="fa fa-cubes"></i>
+            <i class="fa fa-cash-register"></i>
           </div>
           <a href="{{ url('/admin/barang_masuk/index') }}" class="small-box-footer">
             More info <i class="fa fa-arrow-circle-right"></i>
@@ -247,16 +247,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-green">
           <div class="inner">
-            <h3>{{ $transaksi_barang->count()}}</h3>
+            <?php
+                $pendapatan = \App\transaksi::sum('jumlah_harga');
+            ?>
+            <h3>@currency($pendapatan)</h3>
 
-            <p>Laporan Transaksi</p>
+            <p>Pendapatan</p>
           </div>
           <div class="icon">
-            <i class="fas fa-cash-register"></i>
+            <i class="fas fa-coins"></i>
           </div>
-          <a href="{{ url('/admin/transaksi/index') }}" class="small-box-footer">
+          <a href="#" class="small-box-footer">
             More info <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -268,7 +271,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="inner">
             <h3>-</h3>
 
-            <p>Laporan Keuangan</p>
+            <p>Keuntungan</p>
           </div>
           <div class="icon">
             <i class="fas fa-chart-line"></i>

@@ -13,8 +13,8 @@ class transaksi_detail extends Model
         return $this->belongsTo('App\barang', 'barang_id', 'id');
     }
 
-    public function transaksi_barang()
+    public function transaksi()
     {
-        return $this->belongsTo('App\transaksi_barang', 'transaksi_id', 'id');
+        return $this->belongsTo('App\transaksi', 'transaksi_id', 'id');
     }
 }

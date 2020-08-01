@@ -5,30 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\supplier;
 use Alert;
-use DataTables;
 
 class SupplierController extends Controller
 {
-    
+
     public function tampilTambah(){
         return view('/admin/supplier/tambah');
     }
 
     public function getSupplier(){
-        
-        $suppliers = supplier::paginate(5);
+
+        $suppliers = supplier::all();
         return view('/admin/supplier/index', compact('suppliers'));
-    }
-
-    /*public function json(){
-        return Datatables::of(supplier::all())->make(true);
-    }*/
-
-    public function cari(Request $request)
-    {
-        $cari = $request->cari;
-        $suppliers = supplier::where('name','LIKE',"%".$cari."%")->paginate(5);
-        return view('/admin/supplier/index',compact('suppliers'));
     }
 
     public function addSupplier(Request $request){
@@ -59,8 +47,6 @@ class SupplierController extends Controller
 
         alert()->success('Data Berhasil Di Tambah !', 'Success');
         return redirect('/admin/supplier/index');
-
-        
     }
 
     public function deletesupplier($id){

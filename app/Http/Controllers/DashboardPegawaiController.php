@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\transaksi_barang;
+use App\transaksi;
 use App\barang;
 use App\transaksi_detail;
 use SweetAlert;
@@ -15,48 +15,47 @@ use PDF;
 
 class DashboardPegawaiController extends Controller
 {
-    
+
     public function getTransaksi(){
         $barang = barang::all();
         $transaksi_detail = transaksi_detail::all();
-        $transaksi_barang = transaksi_barang::where('status',0)->first();
-        if(!empty($transaksi_barang))
+        $transaksi = transaksi::where('status',0)->first();
+        if(!empty($transaksi))
         {
-            $transaksi_detail  = transaksi_detail::where('transaksi_id', $transaksi_barang->id)->get();
-            return view('/pegawai/index', compact('barang', 'transaksi_barang'  ,'transaksi_detail'));
+            $transaksi_detail  = transaksi_detail::where('transaksi_id', $transaksi->id)->get();
+            return view('/pegawai/index', compact('barang', 'transaksi'  ,'transaksi_detail'));
         }
-        return view('/pegawai/index', compact('barang', 'transaksi_barang'  ,'transaksi_detail'));
+        return view('/pegawai/index', compact('barang', 'transaksi'  ,'transaksi_detail'));
     }
 
     public function tampilKonfirmasi($id){
-        $barang = barang::all();
-        $transaksi_barang = transaksi_barang::where('id', $id)->first();
-        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi_barang->id)->get();
+        $transaksi = transaksi::where('id', $id)->first();
+        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi->id)->get();
 
-        
-        return view('/pegawai/konfirmasi', compact('barang', 'transaksi_barang'  ,'transaksi_detail'));
+
+        return view('/pegawai/konfirmasi', compact('transaksi'  ,'transaksi_detail'));
     }
 
     public function cetak_pdf($id)
     {
         $barang = barang::all();
-        $transaksi_barang = transaksi_barang::where('id', $id)->first();
-        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi_barang->id)->get();
+        $transaksi = transaksi::where('id', $id)->first();
+        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi->id)->get();
 
-            $pdf = PDF::loadview('/pegawai/transaksi_barang_pdf', compact('barang', 'transaksi_barang'  ,'transaksi_detail'));
-            return $pdf->download('laporan-transaksi_barang-pdf.pdf');    
+            $t = array(0,0,380,500);
+            $pdf = PDF::loadview('/pegawai/transaksi_barang_pdf', compact('barang', 'transaksi'  ,'transaksi_detail'))->setPaper($t);
+            return $pdf->download('laporan-transaksi_barang-pdf.pdf');
         //return $pdf->stream();
     }
-    
-         
 
-    public function addTransaksi(Request $request){   
+
+
+    public function addTransaksi(Request $request){
         //simpan ke database Transaksi
-        $transaksi_barang = transaksi_barang::all();
+        $transaksi = transaksi::all();
         $transaksi_detail = transaksi_detail::where('barang_id', $request->barang)->first();
-        $barang = barang::all();
         $tanggal = Carbon::now()->toDateTimeString();
-    
+
         $this->validate($request, [
             'jumlah_beli' => 'required|numeric|min:1',
         ],
@@ -65,23 +64,23 @@ class DashboardPegawaiController extends Controller
             'jumlah_beli.numeric' => 'Harus Pakai Nomer !',
             'jumlah_beli.min' => 'Tidak Boleh Minus Atau Kosong !',
         ]);
-        
+
         //Cek Validasi
-        $cek_pesanan = transaksi_barang::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
+        $cek_pesanan = transaksi::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
         //Simpan Ke Database Transaksi
         if(empty($cek_pesanan)){
-            $transaksi_barang = new transaksi_barang;
-            $transaksi_barang->pegawai_id    = Auth::user()->id;
-            $transaksi_barang->status        = 0;
-            $transaksi_barang->jumlah_harga  = 0;
-            $transaksi_barang->tanggal  = $tanggal;
-            $transaksi_barang->save();
+            $transaksi = new transaksi;
+            $transaksi->pegawai_id    = Auth::user()->id;
+            $transaksi->status        = 0;
+            $transaksi->jumlah_harga  = 0;
+            $transaksi->tanggal  = $tanggal;
+            $transaksi->save();
         }
 
         //Simpan Ke Database Transaksi_Detail
         //Cek Transaksi Detail
-        
-        $pesanan_baru = transaksi_barang::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
+
+        $pesanan_baru = transaksi::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
 
         $cek_pesanan_detail = transaksi_detail::where('barang_id', $request->barang)->where('transaksi_id', $pesanan_baru->id)->first();
 
@@ -90,40 +89,40 @@ class DashboardPegawaiController extends Controller
             $transaksi_detail->barang_id      = $request->barang;
             $transaksi_detail->transaksi_id   = $pesanan_baru->id;
             $transaksi_detail->jumlah_beli    = $request->jumlah_beli;
-            $transaksi_detail->jumlah_harga   = $transaksi_detail->barang->harga*$request->jumlah_beli;
+            $transaksi_detail->jumlah_harga   = $transaksi_detail->barang->harga_jual*$request->jumlah_beli;
             $transaksi_detail->save();
         }else{
             $transaksi_detail = transaksi_detail::where('barang_id', $request->barang)->where('transaksi_id', $pesanan_baru->id)->first();
             $transaksi_detail->jumlah_beli    = $transaksi_detail->jumlah_beli + $request->jumlah_beli;
-            
+
             // Harga Sekarang
-            $harga_transaksi_detail_baru = $transaksi_detail->barang->harga*$request->jumlah_beli;
+            $harga_transaksi_detail_baru = $transaksi_detail->barang->harga_jual*$request->jumlah_beli;
             $transaksi_detail->jumlah_harga   = $transaksi_detail->jumlah_harga+$harga_transaksi_detail_baru;
             $transaksi_detail->update();
         }
 
         //jumlah TOTAL
-        $transaksi_barang = transaksi_barang::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
-        $transaksi_barang->jumlah_harga = $transaksi_barang->jumlah_harga+$transaksi_detail->barang->harga*$request->jumlah_beli;
-        $transaksi_barang->update();
-        
+        $transaksi = transaksi::where('pegawai_id', Auth::user()->id)->where('status',0)->first();
+        $transaksi->jumlah_harga = $transaksi->jumlah_harga+$transaksi_detail->barang->harga_jual*$request->jumlah_beli;
+        $transaksi->update();
+
         alert()->success('Transaksi Ditambah !', 'Success');
         return redirect('/pegawai/index');
     }
 
-    public function deleteTransaksi($id)         
+    public function deleteTransaksi($id)
     {
         $transaksi_detail = transaksi_detail::where('id', $id)->first();
-        $transaksi_barang = transaksi_barang::where('id', $transaksi_detail->transaksi_barang->id)->first();
+        $transaksi = transaksi::where('id', $transaksi_detail->transaksi->id)->first();
 
-        $transaksi_barang->jumlah_harga = $transaksi_barang->jumlah_harga-$transaksi_detail->jumlah_harga;
-        $transaksi_barang->update();
+        $transaksi->jumlah_harga = $transaksi->jumlah_harga-$transaksi_detail->jumlah_harga;
+        $transaksi->update();
 
         $transaksi_detail->delete();
 
         alert()->error('Transaksi Terhapus !', 'Deleted');
         return redirect('/pegawai/index');
-        
+
     }
 
     public function konfirmasi(Request $request, $id)
@@ -140,32 +139,38 @@ class DashboardPegawaiController extends Controller
             'uang_bayar.numeric' => 'Harus Pakai Nomer !',
         ]);
 
-        $transaksi_barang = transaksi_barang::where('id', $id)->first();
-        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi_barang->id)->get();
+        $transaksi = transaksi::where('id', $id)->first();
+        $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi->id)->get();
 
-        if($request->uang_bayar < $transaksi_barang->jumlah_harga){
+        if($request->uang_bayar < $transaksi->jumlah_harga){
             alert()->error('Uang Bayar Tidak Boleh Kurang !', 'Error');
             return redirect('pegawai/index');
         }
-        
-        $transaksi_barang = transaksi_barang::where('status',0)->first();
-        $transaksi_id = $transaksi_barang->id;
-        $transaksi_barang->status = 1;
-        $transaksi_barang->nama_pembeli = $request->nama_pembeli;
-        $transaksi_barang->uang_bayar = $request->uang_bayar;
-        $transaksi_barang->update();
+        $transaksi = transaksi::where('status',0)->first();
+        $transaksi_id = $transaksi->id;
+        $transaksi->status = 1;
+        $transaksi->nama_pembeli = $request->nama_pembeli;
+        $transaksi->uang_bayar = $request->uang_bayar;
+        $transaksi->update();
 
         $transaksi_detail = transaksi_detail::where('transaksi_id', $transaksi_id)->get();
         foreach($transaksi_detail as $transaksi_detail){
             $barang = barang::where('id', $transaksi_detail->barang_id)->first();
             $barang->stok = $barang->stok-$transaksi_detail->jumlah_beli;
+
+            if($barang->stok <= 0){
+                $barang->status = 1;
+            }elseif($barang->stok < 5){
+                $barang->status = 2;
+            }else{
+                $barang->status = 3;
+            }
             $barang->update();
         }
 
 
-
         alert()->success('Transaksi Sudah Selesai !', 'Success');
-        return redirect('/pegawai/konfirmasi/'. $transaksi_barang->id);
+        return redirect('/pegawai/konfirmasi/'. $transaksi->id);
     }
 
     public function detailTransaksi()

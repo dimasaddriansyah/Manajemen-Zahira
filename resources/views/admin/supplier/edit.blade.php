@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
-  
+
   @yield('style-ajalah')
 
 </head>
@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      
+
       <li class="nav-item">
       <li class="col-md-12">
         <a href="{{ url('/keluar') }}">Logout</a>
@@ -144,7 +144,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
                 Laporan Keuangan
@@ -177,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
             <div class="row">
               <div class="col-md-12 mt-3">
-                <a href="{{url('/admin/supplier/index')}}" class="btn btn-primary"><i class="fas fa-arrow-circle-left"> KEMBALI</i></a>
+                <a href="{{url('/admin/supplier/index')}}" class="btn btn-primary"><i class="fas fa-arrow-circle-left"> Kembali</i></a>
               </div>
                 <div class="col-12 mt-3">
                     <div class="card">
@@ -185,50 +185,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h5 >EDIT DATA SUPPLIER <b style="color: blue">{{$supplier->name}}</b></h5>
                         </div>
                         <div class="card-body">
-                          @if ($errors->any())
-                            <div class="alert alert-danger" align="left">
-                                <ul>
-                                  <p>Kesalahan !</p>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                          @endif
                             <form action="{{ url('/edit-supplier/'. $supplier->id) }}" method="post">
                               @csrf
                               <div class="form-group">
                                   <label>Nama Supplier</label>
-                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" style="text-transform: capitalize;" value="{{$supplier->name}}">
+                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" style="text-transform: capitalize;" value="{{ old('name',$supplier->name)}}">
                                   @if ($errors->has('name')) <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span> @endif
 
                               </div>
                               <div class="form-group">
                                 <label>Alamat</label>
-                                <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" style="text-transform: capitalize;" value="{{$supplier->alamat}}">
+                                <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" style="text-transform: capitalize;" value="{{old('alamat',$supplier->alamat)}}">
                                 @if ($errors->has('alamat')) <span class="invalid-feedback"><strong>{{ $errors->first('alamat') }}</strong></span> @endif
 
                               </div>
                               <div class="form-group">
                                   <label>No Hp</label>
-                                  <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{$supplier->no_hp}}">
+                                  <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{old('no_hp',$supplier->no_hp)}}">
                                   @if ($errors->has('no_hp')) <span class="invalid-feedback"><strong>{{ $errors->first('no_hp') }}</strong></span> @endif
 
                               </div>
                                 <button class="btn btn-primary btn-flat btn-block btn-sm">Update Data</button>
-    
+
                             </form>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
         </div>
     </div>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-    
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
