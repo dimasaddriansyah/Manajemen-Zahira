@@ -20,6 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('/dash/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('/dash/vendors/css/vendor.bundle.addons.css')}}">
+  <link rel="stylesheet" href="{{asset('/tampilan-admin/c.css')}}">
+
 
   @yield('style-ajalah')
 
@@ -199,7 +201,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="text" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" >
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" value="{{ old('password') }}" >
+                                    <i class="password-toggle fas fa-eye-slash" id="password-toggle" onclick="passwordToggle()"></i>
                                     @if ($errors->has('password')) <span class="invalid-feedback"><strong>{{ $errors->first('password') }}</strong></span> @endif
                                  </div>
                                 <div class="form-group">
@@ -258,6 +261,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
+<script src="/tampilan-login/js/index.js"></script>
+
 
 @yield('script')
 </body>

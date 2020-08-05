@@ -181,7 +181,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- small box -->
         <div class="small-box bg-blue">
           <div class="inner">
-          <h3>{{ $pegawai->count() }}</h3>
+          <h3 class="count">{{ $pegawai->count() }}</h3>
 
             <p>Akun Pegawai</p>
           </div>
@@ -198,7 +198,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- small box -->
         <div class="small-box bg-purple">
           <div class="inner">
-            <h3>{{ $supplier->count() }}</h3>
+            <h3 class="count">{{ $supplier->count() }}</h3>
 
             <p>Data Supplier</p>
           </div>
@@ -215,7 +215,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- small box -->
         <div class="small-box bg-red">
           <div class="inner">
-          <h3>{{ $barang->count()}}</h3>
+          <h3 class="count">{{ $barang->count()}}</h3>
 
             <p>Data Barang</p>
           </div>
@@ -232,7 +232,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- small box -->
         <div class="small-box bg-orange">
           <div class="inner">
-          <h3>{{ $transaksi->count()}}</h3>
+          <h3 class="count">{{ $transaksi->count()}}</h3>
 
             <p>Laporan Transaksi</p>
           </div>
@@ -252,9 +252,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php
                 $pendapatan = \App\transaksi::sum('jumlah_harga');
             ?>
-            <h3>@currency($pendapatan)</h3>
-
-            <p>Pendapatan</p>
+            <h4>Pendapatan</h4>
+            <h3 class="d-inline">Rp. </h3>
+            <h3 class="d-inline count">{{ $pendapatan }}</h3>
           </div>
           <div class="icon">
             <i class="fas fa-coins"></i>
@@ -269,9 +269,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
-            <h3>-</h3>
-
-            <p>Keuntungan</p>
+            <h4>Keuntungan</h4>
+            <h3 class="d-inline">Rp. </h3>
+            <h3 class="d-inline count">{{ $keuntungan }}</h3>
           </div>
           <div class="icon">
             <i class="fas fa-chart-line"></i>
@@ -316,8 +316,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/tampilan-admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/tampilan-admin/dist/js/adminlte.min.js')}}"></script>
-  @include('sweet::alert')
-
-@yield('script')
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="{{ asset('/tampilan-admin/js/main.js') }}"></script>
+@include('sweet::alert')
 </body>
 </html>

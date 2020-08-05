@@ -32,12 +32,16 @@ class BarangMasukController extends Controller
 
     public function addBarangMasuk2(Request $request){
         $this->validate($request, [
+            'supplier' => 'required',
+            'kategori' => 'required',
             'nama_barang' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
             'harga_beli' => 'required|min:1|integer',
             'harga_jual' => 'required|min:1|integer',
             'jumlah' => 'required|min:1|integer',
         ],
         [
+            'supplier.required' => 'Harus Mengisi Bagian Nama Supllier !',
+            'kategori.required' => 'Harus Mengisi Bagian Nama Kategori !',
             'nama_barang.required' => 'Harus Mengisi Bagian Nama Barang !',
             'nama_barang.min' => 'Minimal 4 Karakter !',
             'nama_barang.regex' => 'Inputan Nama Tidak Valid !',

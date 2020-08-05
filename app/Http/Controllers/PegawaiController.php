@@ -67,7 +67,6 @@ class PegawaiController extends Controller
 
     public function formPegawai($id){
         $pegawai = pegawai::where('id', $id)->first();
-
         return view('/admin/pegawai/edit', compact('pegawai'));
     }
     public function editPegawai(Request $request,$id){

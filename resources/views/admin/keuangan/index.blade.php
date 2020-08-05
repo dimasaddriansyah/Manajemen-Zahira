@@ -148,7 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/admin/keuangan/index') }}" class="nav-link">
+                <a href="{{ url('/admin/keuangan/index') }}" class="nav-link active">
                   <i class="nav-icon fas fa-chart-line"></i>
                   <p>
                     Laporan Keuangan
@@ -182,11 +182,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="row">
               <div class="col-md-12">
                   <div class="col">
-                    <?php
-                        $pendapatan = \App\transaksi::sum('jumlah_harga');
-                    ?>
                      <button class="btn btn-info align-content-center"><i class="fas fa-coins"></i> Pendapatan : @currency($pendapatan)</button>
-                     <button class="btn btn-success align-content-center ml-2"><i class="fas fa-coins"></i> Keuntungan : Rp. -</button>
+                     <button class="btn btn-success align-content-center ml-2"><i class="fas fa-coins"></i> Keuntungan : @currency($keuntungan)</button>
                   </div>
                 </div></div>
                 <div class="col-12 mt-3">
@@ -196,7 +193,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <thead>
                                     <tr>
                                         <th>Nomer Transaksi</th>
-                                        <th>Jumlah Beli</th>
+                                        <th>Nama Pembeli</th>
+                                        <th>Nama Barang</th>
+                                        <th>Harga Satuan</th>
                                         <th>Jumlah Harga</th>
                                     </tr>
                                 </thead>
@@ -204,7 +203,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     @foreach($keuangan as $key => $keuangan)
                                         <tr>
                                             <td>TR - {{$keuangan->transaksi_id}}</td>
-                                            <td>{{$keuangan->jumlah_beli}} Pcs</td>
+                                            <td>{{ $keuangan->transaksi->nama_pembeli }}</td>
+                                            <td>{{ $keuangan->barang->nama_barang }}</td>
+                                            <td>{{$keuangan->jumlah_beli}} x @currency($keuangan->barang->harga_jual)</td>
                                             <td>@currency($keuangan->jumlah_harga)</td>
                                         </tr>
                                     @endforeach

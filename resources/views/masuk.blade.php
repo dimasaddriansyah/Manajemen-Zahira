@@ -4,7 +4,7 @@
 	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="/tampilan-login/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/vendor/bootstrap/css/bootstrap.min.css">
@@ -14,23 +14,24 @@
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/vendor/animate/animate.css">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/vendor/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/tampilan-login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/tampilan-login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/fontawesome/css/all.css">
 	<link rel="stylesheet" type="text/css" href="/tampilan-login/css/main.css">
 <!--===============================================================================================-->
 <script src="{{ asset('js/app.js') }}"></script>
 
 </head>
 <body>
-	
+
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -59,7 +60,8 @@
 
 					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
 						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="password" placeholder="Enter password" required>
+                        <input class="input100" type="password" name="password" id="password" placeholder="Enter password" required>
+                        <i class="password-toggle fas fa-eye-slash" id="password-toggle" onclick="passwordToggle()"></i>
 						<span class="focus-input100"></span>
 					</div>
 
@@ -81,7 +83,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 <!--===============================================================================================-->
 	<script src="/tampilan-login/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -97,7 +99,8 @@
 <!--===============================================================================================-->
 	<script src="/tampilan-login/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="/tampilan-login/js/main.js"></script>
+    <script src="/tampilan-login/js/main.js"></script>
+    <script src="/tampilan-login/js/index.js"></script>
 	@include('sweet::alert')
 
 

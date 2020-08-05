@@ -16,6 +16,11 @@ class barang extends Model
     public function kategori()
 	{
 		return $this->belongsTo('App\kategori');
+    }
+
+    public function transaksi_detail()
+	{
+		return $this->hasMany('App\transaksi_detail');
 	}
 
 	public function getTglMasukAttribute()

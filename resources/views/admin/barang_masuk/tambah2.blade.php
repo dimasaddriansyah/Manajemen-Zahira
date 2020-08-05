@@ -204,11 +204,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 @csrf
                                 <div class="form-group">
                                   <label>Nama Supplier</label>
-                                  <select name="supplier" class="form-control">
+                                  <select name="supplier" class="form-control @error ('supplier') is-invalid @enderror">
+                                    <option value="">- Pilih -</option>
                                     @foreach($supplier as $supplier)
-                                      <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                      <option value="{{$supplier->id}}" {{ old('supplier') == $supplier->id ? 'selected' : null }}>{{$supplier->name}}</option>
                                     @endforeach
                                   </select>
+                                    @if ($errors->has('supplier')) <span class="invalid-feedback"><strong>{{ $errors->first('supplier') }}</strong></span> @endif
+
                               </div>
                               <div class="form-group">
                                 <label>Nama Barang</label>
@@ -217,7 +220,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <div class="form-group">
                                 <label>Kategori Barang</label>
-                                <select name="kategori" class="form-control">
+                                <select name="kategori" class="form-control @error ('kategori') is-invalid @enderror">
+                                  <option value="">- Pilih -</option>
                                   @foreach($kategori as $kategori)
                                       <option value="{{$kategori->id}}">{{$kategori->name}}</option>
                                     @endforeach

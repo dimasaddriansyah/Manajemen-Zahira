@@ -37,34 +37,32 @@
 			<h5>----------------------------------------------------------------------------------------------------</h5>
 			<div>
 			  <table>
-				<thead>
-						<tr>
-							<td>No</td>
-							<td>Nama Barang</td>
-							<td>Harga Satuan</td>
-							<td>Jumlah Harga</td>
-						</tr>
-					</thead>
+                  <thead>
+                      <tr>
+                          <td>Nama Barang</td>
+                          <td>Harga Satuan</td>
+                          <td>Jumlah Harga</td>
+                      </tr>
+                  </thead>
 					<tbody>
 						@foreach($transaksi_detail as $key => $transaksi_detail)
 							<tr>
-								<td style="width: 30px">{{$key+1}}</td>
-								<td style="width: 100px">{{$transaksi_detail->barang->nama_barang}}</td>
+								<td style="width: 140px">{{$transaksi_detail->barang->nama_barang}}</td>
 								<td style="width: 160px">{{ $transaksi_detail->jumlah_beli }} x @currency($transaksi_detail->barang->harga_jual)</td>
-								<td>@currency($transaksi_detail->jumlah_harga)</td>
+								<td style="width: 100px">@currency($transaksi_detail->jumlah_harga)</td>
 							</tr>
 						@endforeach
 						<tr>
-							<td colspan="2"></td>
+							<td colspan="1"></td>
 							<td style="font-size: 14px;"><p>Total Harga</p></td>
 							<td style="font-size: 14px;">@currency($transaksi->jumlah_harga)</td>
 						<tr>
-							<td colspan="2"></td>
+							<td colspan="1"></td>
 							<td style="font-size: 14px;">Uang Bayar</td>
 							<td style="font-size: 14px;">@currency($transaksi->uang_bayar)</td>
 						</tr>
 						<tr>
-							<td colspan="2"></td>
+							<td colspan="1"></td>
 							<td style="font-size: 14px;">Kembali</td>
 							<td style="font-size: 14px;">@currency($transaksi->uang_bayar - $transaksi->jumlah_harga)</td>
 						</tr>

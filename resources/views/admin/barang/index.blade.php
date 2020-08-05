@@ -189,7 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         }
                         if(!empty($notif)) {
-                            $h = \App\barang::where('nama_barang')->where('status',1)->count();
+                            $h = \App\barang::where('status',1)->count();
                         }
                     ?>
                     <a class="btn btn-primary" style="color: white"><i class="fas fa-cubes"></i> Stok Barang</a>

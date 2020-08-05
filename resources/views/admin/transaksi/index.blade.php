@@ -195,6 +195,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <th>Nama Pembeli</th>
                                         <th>Total Harga</th>
                                         <th>Uang Bayar</th>
+                                        <th>Uang Kembali</th>
                                         <th>Tanggal Transaksi</th>
                                         <th>Kasir / Pegawai</th>
                                     </tr>
@@ -206,6 +207,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <td>{{$transaksi->nama_pembeli}}</td>
                                             <td>@currency($transaksi->jumlah_harga)</td>
                                             <td>@currency($transaksi->uang_bayar)</td>
+                                            <td>@currency($transaksi->uang_bayar - $transaksi->jumlah_harga)</td>
                                             <td>{{$transaksi->created_at}}</td>
                                             <td>{{$transaksi->pegawai->name}}</td>
                                         </tr>
